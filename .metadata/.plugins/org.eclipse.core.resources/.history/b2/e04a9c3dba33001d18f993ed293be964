@@ -1,7 +1,0 @@
-package ar.edu.unlu.ejercicio10;
-
-public class Cliente {
-	private String nombre;
-	
-	private int codigo;
-}

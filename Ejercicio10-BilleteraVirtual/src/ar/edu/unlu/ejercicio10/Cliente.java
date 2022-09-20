@@ -3,9 +3,9 @@ package ar.edu.unlu.ejercicio10;
 public class Cliente {
 	private CuentaNormal ctaNormal;
 	
-	//private CuentaCredito ctaCredito;
+	private CuentaCredito ctaCredito;
 	
-	//private PlazoFijo plazoFijoCliente;
+	private PlazoFijo plazoFijoCliente;
 	
 	private String nombre;
 	
@@ -26,13 +26,26 @@ public class Cliente {
 		return codigo;
 	}
 	
+	public double obtenerSaldoCuentaNormal() {
+		return ctaNormal.getSaldo();
+	}
 	
-	public void invertir(int monto, int dias) {
+	public double obtenerLimiteDeGiros() {
+		return ctaNormal.getLimiteDescubierto();
+	}
+	
+	
+	public void invertir(double monto, int dias) {
+		PlazoFijo plazoFijoCliente = new PlazoFijo(dias,monto);
 		ctaNormal.gastarDinero(monto);
 	}
 	
 	public boolean tieneInversion() {
-		return true; //cambiar
+		return plazoFijoCliente.getinversion(); 
+	}
+	
+	public double inversionPlazoFijo() {
+		return plazoFijoCliente.obtenerMontoInvertido();
 	}
 	
 	public void acreditarInversion() {

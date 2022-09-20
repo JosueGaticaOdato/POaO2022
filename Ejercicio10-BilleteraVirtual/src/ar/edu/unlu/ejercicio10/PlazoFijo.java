@@ -8,23 +8,29 @@ public class PlazoFijo {
 	
 	private int dias;
 	
-	private int monto;
+	private double monto;
 	
-	private int interes;
+	private double interes = 0.4;
+	
+	private boolean inversion;
 	
 	private CuentaNormal ctaNormal;
 	
-	public PlazoFijo(LocalDate fechaInicioPF, int diasPF, int montoPF, int interesPF)
-	{
-		fechaInicio = fechaInicioPF;
-		dias = diasPF;
-		monto = montoPF;
-		interes = interesPF;
+	public boolean getinversion(){
+		return inversion;
 	}
 	
-	public int calcularIntereses() {
-		return interes;
+	public PlazoFijo(int diasPF, double montoPF)
+	{
+		dias = diasPF;
+		monto = montoPF;
+		inversion = true;
 	}
+	
+	public double obtenerMontoInvertido() {
+		return monto;
+	}
+	
 	
 	public boolean estaVencido() {
 		LocalDate fechaactual = LocalDate.now();

@@ -1,34 +1,35 @@
 package ar.edu.unlu.ejercicio10;
 
 public class CuentaNormal {
-		private int saldo;
+		private double saldo;
 		
-		private int limDescubierto;
+		private double limDescubierto;
 		
-		public CuentaNormal(int saldoCuentaNormal, int limDescubiertoCuentaNormal) {
+		public CuentaNormal(double saldoCuentaNormal, double limDescubiertoCuentaNormal) {
 			saldo = saldoCuentaNormal;
 			limDescubierto = limDescubiertoCuentaNormal;
 		}
 		
-		public int montoTotal() { //Monto total que puede gastar el usuario
+		public double montoTotal() { //Monto total que puede gastar el usuario
 			return saldo + limDescubierto;
 		}
 		
-		public int getSaldo() {
+		public double getSaldo() {
 			return saldo;
 		}
 		
-		public void setSaldo(int monto) {
+		public void setSaldo(double monto) {
 			saldo = monto;
 		}
 		
-		public int getLimiteDescubierto() {
+		public double getLimiteDescubierto() {
 			return limDescubierto;
 		}
 		
-		public boolean gastarDinero(int monto) {
+		public boolean gastarDinero(double monto) {
 			boolean descubierto = false;
 			if (monto > saldo) {
+				monto = monto - saldo;
 				saldo = 0;
 				limDescubierto = limDescubierto - monto;
 				descubierto = true; //Si utilizo el descubierto uso true
@@ -37,7 +38,7 @@ public class CuentaNormal {
 			return descubierto;
 		}
 		
-		public void acreditar(int monto) {
+		public void acreditar(double monto) {
 			saldo = saldo + monto;
 		}
 

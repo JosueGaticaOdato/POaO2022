@@ -29,5 +29,4 @@ public class CuentaCredito {
 		compras.get(posicion).pagar(monto);
 	}
 	
-	//private Compra listarComprasImpagas() {}
 }

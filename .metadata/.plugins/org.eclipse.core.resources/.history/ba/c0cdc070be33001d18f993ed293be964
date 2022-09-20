@@ -1,9 +1,0 @@
-package ar.edu.unlu.ejercicio10;
-
-public class Compra {
-	private int monto;
-	
-	private Date fecha;
-	
-	private String concepto;
-}

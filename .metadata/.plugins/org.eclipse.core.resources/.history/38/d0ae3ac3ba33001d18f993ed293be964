@@ -1,7 +1,0 @@
-package ar.edu.unlu.ejercicio10;
-
-import java.time.*;
-
-public class PlazoFijo {
-	private Date fechaInicio;
-}
