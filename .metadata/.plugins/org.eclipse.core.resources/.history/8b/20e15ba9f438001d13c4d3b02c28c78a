@@ -1,8 +1,0 @@
-package ar.edu.unlu.ejercicio3;
-
-public class Contraseña {
-	
-	private String contraseña;
-	
-
-}
