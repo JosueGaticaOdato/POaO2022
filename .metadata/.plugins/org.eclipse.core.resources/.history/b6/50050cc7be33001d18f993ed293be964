@@ -1,0 +1,28 @@
+package ar.edu.unlu.ejercicio10;
+
+public class Cliente {
+	private CuentaNormal ctaNormal;
+	
+	private String nombre;
+	
+	private int codigo;
+	
+	public Cliente(String nombrecliente, int codigocliente) {
+		nombre = nombrecliente;
+		codigo = codigocliente;
+	}
+	
+	public void invertir(boolean TipoCuenta, int monto, int dias) {
+		if TipoCuenta { //True para la normal, false para la de credito
+			ctaNormal.gastarDinero(monto);
+		}
+	}
+	
+	public boolean tieneInversion() {
+		
+	}
+	
+	public void acreditarInversion() {
+		
+	}
+}

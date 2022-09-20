@@ -1,0 +1,26 @@
+package ar.edu.unlu.ejercicio10;
+
+public class Cliente {
+	private CuentaNormal ctaNormal;
+	
+	private PlazoFijo plazoFijoCliente;
+	
+	private String nombre;
+	
+	private int codigo;
+	
+	public Cliente(String nombrecliente, int codigocliente) {
+		nombre = nombrecliente;
+		codigo = codigocliente;
+	}
+	
+	public void invertir(int monto, int dias) {
+		ctaNormal.gastarDinero(monto);
+	}
+	
+	//public boolean tieneInversion() {}
+	
+	public void acreditarInversion() {
+		
+	}
+}

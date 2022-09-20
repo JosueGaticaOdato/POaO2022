@@ -1,0 +1,46 @@
+package ar.edu.unlu.ejercicio10;
+
+import java.time.LocalDate;
+
+public class Compra {
+	private int monto;
+	
+	private LocalDate fecha;
+	
+	private String concepto;
+	
+	private boolean paga;
+	
+	public Compra(int montoCompra, String conceptoCompra, LocalDate fechaCompra) {
+		monto = montoCompra;
+		concepto = conceptoCompra;
+		fecha = fechaCompra;
+	}
+	public boolean estaPaga(){
+		return paga;
+	};
+	
+	public getMonto() {
+		return this.monto;
+	}
+	
+	public getFecha() {
+		return this.fecha;
+	}
+	
+	public getConcepto() {
+		return this.concepto;
+	}
+	
+	public void calcularInteres() {
+		
+	};
+	
+	public void calcularMontoTotal() {
+		
+	};
+	
+	public void pagar(int montoapagar){
+		
+	};
+}

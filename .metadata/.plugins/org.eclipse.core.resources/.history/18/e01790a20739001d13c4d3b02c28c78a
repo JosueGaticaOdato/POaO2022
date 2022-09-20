@@ -1,0 +1,8 @@
+package ar.edu.unlu.ejercicio6;
+
+public class Juego {
+
+	private ArrayList<Jugador> jugadores;
+	
+	public 
+}

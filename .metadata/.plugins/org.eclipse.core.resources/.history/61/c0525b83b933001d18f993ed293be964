@@ -1,0 +1,21 @@
+package ar.edu.unlu.ejercicio10;
+
+public class CuentaNormal {
+		private int saldo;
+		
+		private int limDescubierto;
+		
+		public CuentaNormal(int saldoCuentaNormal, int limDescubiertoCuentaNormal) {
+			saldo = saldoCuentaNormal;
+			limDescubierto = limDescubiertoCuentaNormal;
+		}
+		
+		public int calcularSaldo() {
+			return saldo;
+		}
+		
+		public getLimiteDescubierto() {
+			return limDescubierto;
+		}
+
+}

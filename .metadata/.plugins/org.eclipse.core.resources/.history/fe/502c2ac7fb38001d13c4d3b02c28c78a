@@ -1,0 +1,24 @@
+package ar.edu.unlu.ejercicio3;
+
+import java.util.Scanner;
+
+public class AppEjercicio3 {
+
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		
+		int longitud, cantidad;
+
+		Scanner sc = new Scanner(System.in);
+		sc.nextLine(); //Limpio buffer
+		System.out.println("Creador de contraseñas");
+		System.out.println("Determinar longitud:");
+		longitud = sc.nextInt();
+		System.out.println("Cantidad de contraseña a crear:");
+		cantidad = sc.nextInt();
+		
+		
+		
+	}
+
+}

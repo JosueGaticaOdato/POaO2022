@@ -1,0 +1,17 @@
+package ar.edu.unlu.ejercicio10;
+
+import java.time.LocalDate;
+
+public class Compra {
+	private int monto;
+	
+	private LocalDate fecha;
+	
+	private String concepto;
+	
+	public estaPaga();
+	
+	public calcularInteres();
+	
+	public calcularMontoTotal();
+}

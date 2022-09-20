@@ -1,0 +1,16 @@
+package ar.edu.unlu.ejercicio3;
+
+public class Contraseña {
+	
+	private String contraseña;
+	
+	private int longitud; 
+	
+	public Contraseña(int tamano) {
+		longitud = tamano;
+	}
+	
+	public getContraseña() {
+		return contraseña;
+	}
+}

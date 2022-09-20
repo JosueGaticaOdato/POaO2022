@@ -1,0 +1,26 @@
+package ar.edu.unlu.ejercicio10;
+
+public class CuentaCredito {
+	public ArrayList<Compra> compras;
+	
+	private getLimite() {
+		
+	}
+	
+	private void obtenerDeudaActual() {
+		
+	}
+	
+	private void comprar(int monto, String concepto) {
+		
+	}
+	
+	private void abonar(int monto, Compra compraAbonar) {
+		
+	
+	}
+	
+	private Compra listarComprasImpagas() {
+		
+	}
+}

@@ -1,0 +1,25 @@
+package ar.edu.unlu.ejercicio3;
+
+public class Contraseña {
+	
+	private String contraseña;
+	
+	private int longitud; 
+	
+	public Contraseña(int tamano) {
+		String AlphaNumericString = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
+                + "0123456789"
+                + "abcdefghijklmnopqrstuvxyz"; //Todos los posibles caracteres
+		StringBuilder sb = new StringBuilder(tamano);
+		
+		for (int i = 0; i < tamano; i++) {
+            int index = (int)(AlphaNumericString.length() * Math.random());
+            sb.append(AlphaNumericString.charAt(index));}
+		
+		longitud = tamano;
+	}
+	
+	public getContraseña() {
+		return contraseña;
+	}
+}

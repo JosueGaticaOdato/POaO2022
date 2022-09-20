@@ -1,0 +1,42 @@
+package ar.edu.unlu.ejercicio6;
+
+import java.util.Scanner;
+
+public class AppEjercicio6 {
+
+	//Main
+	public static void main(String[] args) {
+		// TODO Auto-generated method stub
+		int opcion;
+		Scanner sc = new Scanner(System.in);
+		Juego miJuego = new Juego();
+		
+		//Menu
+		do {
+		System.out.println("Ejercicio 6 - Juego de Palabras");
+		System.out.println("1 - Mostrar jugadores");
+		System.out.println("2 - Agregar jugador");
+		System.out.println("3 - Agregar palabra a un jugador");
+		System.out.println("4 - Mostrar puntos de un jugador");
+		System.out.println("5 - Mostrar ganador del juego");
+		System.out.println("0 - Salir");
+		System.out.println("Opcion: ");
+		opcion = sc.nextInt();
+		
+		switch (opcion){
+			case 1: miJuego.getJugadores();
+				break;
+			case 2:;
+				break;
+			case 3:;
+				break;
+			case 4:;
+				break;
+			case 5:;
+				break;
+		
+		} 	
+		} while (opcion != 0);
+		}
+
+}
