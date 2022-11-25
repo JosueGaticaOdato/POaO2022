@@ -13,6 +13,12 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="D:\Universidad\2022\Programacion orientada a objetos\TP Integrador\src"/>
+			<item value="C:\Users\Josue\Downloads\Corazones"/>
+			<item value="C:\Users\Josue\Downloads\Corazones\src"/>
+			<item value="D:\Universidad\2022\Programacion orientada a objetos\08 - Persistencia y RMI\ejemplo-chat-rmimvc-master"/>
+			<item value="D:\Universidad\2022\Programacion orientada a objetos\06 - MVC y Observer\MasterMind"/>
+			<item value="D:\Universidad\2022\Programacion orientada a objetos\Clases Chivilcoy 2022\Clase 9\mvc-observer-chivilcoy-main"/>
 			<item value="D:\Universidad\2021\Programacion orientada a objetos\Proyectos\Ejercicio10-BilleteraVirtual"/>
 			<item value="D:\Universidad\2022\Programacion orientada a objetos\Clases Chivilcoy 2022\Clase 2\clase-2-chivilcoy-main"/>
 		</list>
