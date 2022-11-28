@@ -11,6 +11,7 @@ public class Corazones implements Observable{
 	private static final int puntajeMaximo = 50;
 	private static final int cantJugadores = 4;
 	private static final int cantJugadasPorRonda = 13;
+	private static final int maximoPasajeDeCartas = 3;
 	
 
 	/**
@@ -42,6 +43,13 @@ public class Corazones implements Observable{
 		//Creo la instancia de los jugadores
 		jugadores = new Jugador[cantJugadores];	
 		this.observadores = new ArrayList<>();
+		/**
+		 * Cargo default
+		 */
+		agregarJugadores("a");
+		agregarJugadores("b");
+		agregarJugadores("c");
+		agregarJugadores("d");
 	}
 	
 	/**
@@ -61,8 +69,13 @@ public class Corazones implements Observable{
 			if (hayGanador()) {
 				seTermino = true;
 			} else {
+				//ACA MUESTRO PUNTAJE()
 				ronda ++;
 			}
+			/*
+			 * TESTING
+			 */
+			seTermino = true;
 		}
 	}
 	
@@ -74,37 +87,70 @@ public class Corazones implements Observable{
 	 * .Tiene que determinar que cartas es capaz de tirar
 	 * .Tiene que determinar al ganador de cada jugada
 	 */
+	
 	public void iniciarRonda() {
+		//Creo el mazo
 		mazo = new Mazo();
+		//reparto las cartas a los jugadores
 		repartirCartas();
-		int posJugador = 0;
-		Jugador jugadorPrincipal = null;
-	
+		pasajeDeCartas();
+		Jugador jugadorGanadorMano = null;
+		//Ciclo por todas las jugadas que hay en la ronda
 		for(int jugada = 0; jugada < cantJugadasPorRonda; jugada++) {
-			Mesa mesa = new Mesa();
-			if (jugada == 0) { //Primera jugada
-				int posJugador2Trebol = jugador2Trebol();	
-			} 
-			for(int i = 0; i < (cantJugadores - 1); i++) {
+			mesa = new Mesa(); //Creo la mesa donde se colocaran las 4 cartas
+			if (jugada == 0) { //Primera jugada, se tira el 2 de trebol
+				//Obtengo la posicion del jugador que tiene el 2 de trebol
+				//y lo cargo en la mesa
+				int posJugador = jugador2Trebol(); 
+				//Obtengo al jugador del 2 de trebol
+				jugadorGanadorMano = jugadores[posJugador]; 
+				}
+			else { //Otra jugada que no sea la primera
+				//Obtengo la posicion del jugador que es mano
+				int posJugador = jugadorGanadorMano.getPosicionFisica();
+				//Le pido la carta a jugar
+				jugarCarta(posJugador,jugadorGanadorMano.cartaRandom());
+				/**
+				 * Pido la carta al jugador que es mano
+				 */
+			}
+			//Itero con los jugadores restantes, para pedir que tiren las cartas
+			//Siempre juega el jugador que esta a la izquierda del que tiro
+			int i = 0;
+			//Pido la posicion del jugador que realiza la primera jugada
+			int posicionJugador = jugadorGanadorMano.getPosicionFisica();		
+			//itero con los jugadores restantes
+			while (i < 3) {
 				//Pido el proximo jugador (el de la izquierda)
-				Jugador proxJugador = obtenerIzquierda(jugadores[posJugador]);
-				//Le solicito la carta
-				//Carta carta = 
-				this.notificar(EventosCorazones.PEDIR_CARTA);
-				//Carta carta = jugadores[i].getCartas[pedirCarta]
-				//mesa.recibirCartaTirada(proxJugador.getPosicionFisica(), carta);
+				Jugador proxJugador = obtenerIzquierda(jugadores[posicionJugador]);
+				/**
+				 * Solicito la carta
+				 */
+				jugarCarta(proxJugador.getPosicionFisica(),proxJugador.cartaRandom());
 				//Le paso la posicion del jugador que jugo recien
-				posJugador = proxJugador.getPosicionFisica();
-			int posicionGanador = mesa.determinarGanador();
-			//jugadores[posicionGanador].
+				posicionJugador = proxJugador.getPosicionFisica();
+				//Aumento contador
+				i++;
+			}
+			
+			//Determino el ganador
+			jugadorGanadorMano = jugadores[mesa.determinarGanador()];
+			//Cargo las cartas al ganador
+			jugadorGanadorMano.recibirCartasRecogida(mesa.getCartasJugadasEnMesa());
 		}
-	}
-	}
-	
-	public int pedirCarta(int posCarta) {
-		return posCarta;
+		//Calculo los puntajes de los jugadores
+		calcularPuntajes();
 	}
 	
+	//Metodo privada que le pide la carta a los jugadores
+	private void jugarCarta(int posJugador,Carta carta) {	
+		mesa.recibirCartaTirada(posJugador, carta);
+		jugadores[posJugador].tirarCarta(carta);
+	}
+	
+	//Metodo que se encarga de decirme quien es el jugador que tiene
+	//el 2 de trebol, ademas de agregarlo a la mesa y tirarlo de la mano
+	//del jugador
 	private int jugador2Trebol() {
 		boolean encontrado = false;
 		int i = 0;
@@ -134,8 +180,6 @@ public class Corazones implements Observable{
 		return hayGanador;
 	}
 
-
-	
 	//Metodo que agrega jugadores al juego,
 	//segun lo que devuelva indica si se cargo de forma correcta o no el jugador
 	//true = se cargo
@@ -206,8 +250,60 @@ public class Corazones implements Observable{
 		}
 	}
 	
+	//Metodo para obtener el jugador que esta a la izquierda
 	private Jugador obtenerIzquierda(Jugador jugador) {
 		return jugadores[jugador.obtenerIzquierda()];
+	}
+	
+	//Metodo quer realiza el pasaje de cartas entre usuarios, segun el
+	//numero de ronda
+	public void pasajeDeCartas() {
+		int pasaje = this.ronda % 4;
+		/**
+		 * CASOS:
+		 * 	1. Pasaje de 0: Se realiza el pasaje a la izquierda
+		 *  2. Pasaje de 1: Se realiza el pasaje al frente
+		 *  3. Pasaje de 2: Se realiza el pasaje a la derecha
+		 *  4. Pasaje de 3: No hay pasaje
+		 */
+		
+		//Primer for por la cantida de jugadores
+		for(int jugador = 0; jugador < jugadores.length; jugador++) {
+			//Segundo for por la cantidad de cartas que se van a pasar
+			for (int cartasPasadas = 0; cartasPasadas < maximoPasajeDeCartas; cartasPasadas++ ) {
+				//Recibo la carta
+				Carta carta = jugadores[jugador].cartaRandom();
+				//Carta carta = jugadores[jugador].tirarCarta(null);
+				jugadores[jugador].tirarCarta(carta);
+				if (pasaje == 0) { //CASO 1: A LA IZQUIERDA
+					jugadores[jugadores[jugador].obtenerIzquierda()].recibirCarta(carta);
+				} else if (pasaje == 1) { //CASO 2: AL FRENTE
+					jugadores[jugadores[jugadores[jugador]
+							.obtenerIzquierda()].obtenerIzquierda()].recibirCarta(carta);
+				} else { //CASO 3: A LA DERECHA
+						jugadores[jugadores[jugadores[jugadores[jugador]
+								.obtenerIzquierda()].obtenerIzquierda()].
+						          obtenerIzquierda()].recibirCarta(carta);
+				}
+			}
+		}
+	}
+
+	//Metodo que calcula el puntaje de cada jugador
+	public void calcularPuntajes() {
+		for(int i = 0; i < jugadores.length; i++) {
+			jugadores[i].contarPuntos();
+		}
+	}
+
+	//Metodo que me muestra los puntajes de cada jugador
+	public String mostrarPuntajes() {
+		String s = "Ronda " + this.ronda + "\n" ;
+		for(int i = 0; i < jugadores.length; i++) {
+			s += "Jugador:" + (i+1) + " - " + jugadores[i].mostrarNombre() + "\n" +
+					jugadores[i].getPuntaje() + "\n";
+		}
+		return s;
 	}
 	
 	@Override

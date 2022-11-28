@@ -1,6 +1,7 @@
 package ar.edu.unlu.corazones.modelo;
 
 import java.util.ArrayList;
+import java.util.Random;
 
 /**
  * Clase jugador
@@ -78,7 +79,7 @@ public class Jugador {
 
 	//Metodo que le da las cartas al jugador y las guarda en las cartas recogidas
 	// (de esta forma puedo calcular los puntos)
-	public void recibirCartasRecogida(ArrayList<Carta> cartas) {
+	public void recibirCartasRecogida(Carta[] cartas) {
 		for (Carta cartaCargada: cartas)
 		recogidas.add(cartaCargada);
 	}
@@ -161,4 +162,15 @@ public class Jugador {
 	public int obtenerIzquierda() {
 		return this.jugadorIzquierda;
 	}
+	
+	
+	/**
+	 * Test, obtener carta de la mano random
+	 */
+	public Carta cartaRandom() {
+		Random random = new Random();
+		return mano.get(random.nextInt(mano.size()));
+	}
+	
+	
 }

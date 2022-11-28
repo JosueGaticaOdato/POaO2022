@@ -95,7 +95,6 @@ public class Mazo {
 			mazo[posicion2] = swap;
 		}
 	}
-
 	
 	/** TESTEO
 	

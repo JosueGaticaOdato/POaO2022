@@ -24,6 +24,9 @@ public class Carta {
 	//Valor (1 a 13) que tiene la carta
 	private int valor;
 	
+	//Valor texto
+	private String valorTexto;
+	
 	//Puntaje que tiene la carta en el juego Corazones
 	private int puntaje;
 	
@@ -37,6 +40,7 @@ public class Carta {
 		this.valor = valor;
 		//Determino el puntaje de la carta cada vez que la inicializo
 		puntajeCarta();
+		valorCarta();
 	}
 	
 	//Getter para obtener el valor del palo de la carta
@@ -56,7 +60,21 @@ public class Carta {
 	
 	//Metodo que muestra la carta en forma de string
 	public String mostrarCarta() {
-			return String.valueOf(valor) + "-" + palo.toString();
+			return valorTexto + "-" + palo.toString();
+	}
+	
+	private void valorCarta() {
+		if (valor >= 2 && valor <= 10) {
+			this.valorTexto = String.valueOf(this.valor);
+		} else if (valor == 11) {
+			this.valorTexto = "J";
+		} else if (valor == 12) {
+			this.valorTexto = "Q";
+		} else if (valor == 13) {
+			this.valorTexto = "K";
+		} else {
+			this.valorTexto = "A";
+		} 
 	}
 	
 	//Metodo privado, propia de la carta, que determina el puntaje de la

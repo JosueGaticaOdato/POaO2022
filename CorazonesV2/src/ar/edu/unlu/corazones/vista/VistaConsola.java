@@ -1,5 +1,8 @@
 package ar.edu.unlu.corazones.vista;
 
+import java.awt.AWTException;
+import java.awt.Robot;
+import java.awt.event.KeyEvent;
 import java.util.Scanner;
 import ar.edu.unlu.corazones.controlador.Controlador;
 import ar.edu.unlu.corazones.modelo.Jugador;
@@ -41,6 +44,7 @@ public class VistaConsola implements IVista {
 	public void iniciar(){
 		boolean salir = false;
 		while(!salir) {
+			limpiarPantalla(50);
 			mostrarMenu();
 			int opcion = this.entrada.nextInt();
 			switch (opcion) {
@@ -55,10 +59,7 @@ public class VistaConsola implements IVista {
 					System.out.println(controlador.listaJugadores());
 					break;
 				case 4: //Comenzar juego
-					System.out.println("Juego comenzado!");
-					controlador.comenzarJuego();
-					//System.out.println(controlador.mostrarGanador());
-					
+					jugar();
 					break;
 				case 0: //Salir del juego
 					salir = true;
@@ -67,12 +68,17 @@ public class VistaConsola implements IVista {
 				default: //Opcion por default
 					System.out.println("Opcion no valida.");
 			}
+			System.out.println("Escriba cualquier tecla para continuar...");
+			this.entrada.next();
 		}
 	}
 	
-	//Metodo que se encarga de solicitarle al usuario tanto el jugador que quiere
-	//cambiar como el nombre del nuevo jugador para modificarlo en la lista
-	//de jugadores
+	/**
+	 * Modificacion:
+	 *   se encarga de solicitarle al usuario tanto el jugador que quiere
+	 *	cambiar como el nombre del nuevo jugador para modificarlo en la lista
+	 *	de jugadores
+	 */
 	private void modificarJugador() {
 		System.out.println();
 		System.out.println("Por favor, ingrese el numero de jugador que quiere modificar:");
@@ -89,8 +95,21 @@ public class VistaConsola implements IVista {
 		}
 		
 	}
+	
+	/**
+	 * Jugar
+	 */
+	private void jugar() {
+		System.out.println("Juego comenzado!");
+		controlador.comenzarJuego();
+		System.out.println(controlador.mostrarPuntajes());
+		//System.out.println(controlador.mostrarGanador());
+	}
 
-	//metodo que se encarga de agregar un nuevo jugador al juego
+	/**
+	 * Agregar(alta):
+	 * metodo que se encarga de agregar un nuevo jugador al juego
+	 */
 	private void nuevoJugador() {
 		System.out.println();
 		System.out.println("Por favor, ingrese tu nombre:");
@@ -105,6 +124,21 @@ public class VistaConsola implements IVista {
 					+ "numero maximo de jugadores.");
 		}
 	}
+	
+	public void pedirCarta() {
+		System.out.println("Elija una carta");
+		int posCarta = entrada.nextInt();
+		//controlador.cartaJugada(posCarta);
+		//controlador.cartaElegida(posCarta);
+	}
+	
+	public void limpiarPantalla(int lineas)
+	{
+	 for (int i=0; i < lineas; i++)
+	 {
+	  System.out.println();
+	 }
+	}
 
 	//Metodo que setea el controlador
 	@Override
@@ -112,10 +146,5 @@ public class VistaConsola implements IVista {
 		this.controlador = controlador;
 	}
 
-	public void pedirCarta() {
-		System.out.println("Elija una carta");
-		int posCarta = entrada.nextInt();
-		//controlador.cartaJugada(posCarta);
-		//controlador.cartaElegida(posCarta);
-	}
+
 }

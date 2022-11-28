@@ -43,6 +43,14 @@ public class Controlador implements Observador{
 		return this.modelo.reemplazarJugadores(nombre, pos);
 	}
 	
+	public String mostrarPuntajes() {
+		return this.modelo.mostrarPuntajes();
+	}
+	
+/**
+	public void cartaJugada(int posCarta) {
+		this.modelo.jugarCarta(posCarta);
+	}*/
 	
 	@Override
 	public void actualizar(Object evento, Observable observador) {
@@ -54,6 +62,7 @@ public class Controlador implements Observador{
 			}
 		}
 	}
+
 
 /**
 	public void cartaElegida(int posCarta) {
