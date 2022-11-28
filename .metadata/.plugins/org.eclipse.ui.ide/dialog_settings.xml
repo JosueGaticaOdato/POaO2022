@@ -13,6 +13,11 @@
 		<item key="SmartImportRootWizardPage.STORE_NESTED_PROJECTS" value="true"/>
 		<item key="SmartImportRootWizardPage.STORE_CONFIGURE_NATURES" value="true"/>
 		<list key="org.eclipse.ui.internal.wizards.datatransfer.SmartImportRootWizardPage.knownSources">
+			<item value="F:\libreria-rmimvc-master"/>
+			<item value="F:\MasterMind"/>
+			<item value="F:\ejemplo-chat-mvc-master"/>
+			<item value="F:\Corazones"/>
+			<item value="C:\Users\Enzopia\POaO2022\CorazonesV2"/>
 			<item value="D:\Universidad\2022\Programacion orientada a objetos\TP Integrador\src"/>
 			<item value="C:\Users\Josue\Downloads\Corazones"/>
 			<item value="C:\Users\Josue\Downloads\Corazones\src"/>

@@ -65,6 +65,23 @@ public class Mesa {
 		return cartasJugadasEnMesa;
 	}
 	
+	public int posicionGanador() {
+		return this.posicionGanador();
+	}
+	
+	public String mostrarCartasEnMesa() {
+		String s = "Cartas en mesa:"  + "\n";
+		for (int i = 0; i < cartasJugadasEnMesa.length; i++) {
+			if (cartasJugadasEnMesa[i] != null) {
+				s += "Jugador " + (i + 1) + " - " + cartasJugadasEnMesa[i].mostrarCarta() + "\n";
+			} else {
+				s += "Jugador " + (i + 1) + " - Ninguna" + "\n" ;
+			}
+			
+		}
+		return s;
+	}
+	
 	
 
 }

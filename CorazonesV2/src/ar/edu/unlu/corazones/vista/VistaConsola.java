@@ -102,8 +102,12 @@ public class VistaConsola implements IVista {
 	private void jugar() {
 		System.out.println("Juego comenzado!");
 		controlador.comenzarJuego();
-		System.out.println(controlador.mostrarPuntajes());
 		//System.out.println(controlador.mostrarGanador());
+	}
+	
+	public void mostrarPuntaje() {
+		System.out.println("Puntaje de los jugadores:");
+		System.out.println(controlador.mostrarPuntajes());
 	}
 
 	/**
@@ -126,10 +130,13 @@ public class VistaConsola implements IVista {
 	}
 	
 	public void pedirCarta() {
+		System.out.println(this.controlador.mostrarCartasEnMesa());
+		System.out.println("Es el turno del jugador: "
+				+ this.controlador.jugadorActual());
+		System.out.println(this.controlador.mostrarCartasJugadorActual());
 		System.out.println("Elija una carta");
 		int posCarta = entrada.nextInt();
-		//controlador.cartaJugada(posCarta);
-		//controlador.cartaElegida(posCarta);
+		controlador.cartaJugada(posCarta - 1);
 	}
 	
 	public void limpiarPantalla(int lineas)
@@ -144,6 +151,11 @@ public class VistaConsola implements IVista {
 	@Override
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
+	}
+
+	public void mostrarGanadorJugada() {
+		System.out.println("El jugador que se llevo todas las cartas "
+				+ "fue " + this.controlador.ganadorJugada());
 	}
 
 

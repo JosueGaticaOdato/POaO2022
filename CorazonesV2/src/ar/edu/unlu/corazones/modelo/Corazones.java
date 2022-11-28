@@ -10,7 +10,8 @@ public class Corazones implements Observable{
 	
 	private static final int puntajeMaximo = 50;
 	private static final int cantJugadores = 4;
-	private static final int cantJugadasPorRonda = 13;
+	private static final int cantJugadasPorRonda = 13; //TESTING
+	private static final int cantCartasRepartidas = 13; //TESTING
 	private static final int maximoPasajeDeCartas = 3;
 	
 
@@ -29,6 +30,11 @@ public class Corazones implements Observable{
 	
 	//Mesa donde se tiraran las cartas del juego
 	private Mesa mesa;
+	
+	//
+	private int posJugadorActual;
+	private int posCartaATirar;
+	private Jugador jugadorGanadorMano;
 	
 	private List<Observador> observadores;
 	
@@ -59,7 +65,6 @@ public class Corazones implements Observable{
 	 * .Tiene que crear las rondas cada vez que termina una
 	 * .Tiene que mostrar al jugador ganador
 	 */
-	//INICIO DEL JUEGO
 	public void inicarJuego() {
 		//Inicializo la ronda
 		ronda = 1;
@@ -69,13 +74,10 @@ public class Corazones implements Observable{
 			if (hayGanador()) {
 				seTermino = true;
 			} else {
-				//ACA MUESTRO PUNTAJE()
+				//Notifico el fin de ronda y muestro los puntajes
+				notificar(EventosCorazones.FIN_DE_RONDA);
 				ronda ++;
 			}
-			/*
-			 * TESTING
-			 */
-			seTermino = true;
 		}
 	}
 	
@@ -94,22 +96,23 @@ public class Corazones implements Observable{
 		//reparto las cartas a los jugadores
 		repartirCartas();
 		pasajeDeCartas();
-		Jugador jugadorGanadorMano = null;
+		//Jugador jugadorGanadorMano = null;
 		//Ciclo por todas las jugadas que hay en la ronda
 		for(int jugada = 0; jugada < cantJugadasPorRonda; jugada++) {
 			mesa = new Mesa(); //Creo la mesa donde se colocaran las 4 cartas
 			if (jugada == 0) { //Primera jugada, se tira el 2 de trebol
 				//Obtengo la posicion del jugador que tiene el 2 de trebol
 				//y lo cargo en la mesa
-				int posJugador = jugador2Trebol(); 
+				posJugadorActual = jugador2Trebol(); 
 				//Obtengo al jugador del 2 de trebol
-				jugadorGanadorMano = jugadores[posJugador]; 
+				jugadorGanadorMano = jugadores[posJugadorActual]; 
 				}
 			else { //Otra jugada que no sea la primera
 				//Obtengo la posicion del jugador que es mano
-				int posJugador = jugadorGanadorMano.getPosicionFisica();
+				posJugadorActual = jugadorGanadorMano.getPosicionFisica();
 				//Le pido la carta a jugar
-				jugarCarta(posJugador,jugadorGanadorMano.cartaRandom());
+				notificar(EventosCorazones.PEDIR_CARTA);
+				jugarCarta(posCartaATirar);
 				/**
 				 * Pido la carta al jugador que es mano
 				 */
@@ -118,23 +121,24 @@ public class Corazones implements Observable{
 			//Siempre juega el jugador que esta a la izquierda del que tiro
 			int i = 0;
 			//Pido la posicion del jugador que realiza la primera jugada
-			int posicionJugador = jugadorGanadorMano.getPosicionFisica();		
+			posJugadorActual = jugadorGanadorMano.getPosicionFisica();		
 			//itero con los jugadores restantes
 			while (i < 3) {
 				//Pido el proximo jugador (el de la izquierda)
-				Jugador proxJugador = obtenerIzquierda(jugadores[posicionJugador]);
+				Jugador proxJugador = obtenerIzquierda(jugadores[posJugadorActual]);
 				/**
 				 * Solicito la carta
 				 */
-				jugarCarta(proxJugador.getPosicionFisica(),proxJugador.cartaRandom());
-				//Le paso la posicion del jugador que jugo recien
-				posicionJugador = proxJugador.getPosicionFisica();
+				posJugadorActual = proxJugador.getPosicionFisica();
+				notificar(EventosCorazones.PEDIR_CARTA);
+				jugarCarta(posCartaATirar);
 				//Aumento contador
 				i++;
 			}
 			
 			//Determino el ganador
 			jugadorGanadorMano = jugadores[mesa.determinarGanador()];
+			notificar(EventosCorazones.GANADOR_JUGADA);
 			//Cargo las cartas al ganador
 			jugadorGanadorMano.recibirCartasRecogida(mesa.getCartasJugadasEnMesa());
 		}
@@ -142,10 +146,15 @@ public class Corazones implements Observable{
 		calcularPuntajes();
 	}
 	
+	public void setposCartaATirar(int posCartaATirar2) {
+		this.posCartaATirar = posCartaATirar2;
+	}
+	
 	//Metodo privada que le pide la carta a los jugadores
-	private void jugarCarta(int posJugador,Carta carta) {	
-		mesa.recibirCartaTirada(posJugador, carta);
-		jugadores[posJugador].tirarCarta(carta);
+	public void jugarCarta(int posCartaATirar2) {
+		Carta carta = jugadores[posJugadorActual].obtenerCarta(posCartaATirar2);
+		mesa.recibirCartaTirada(posJugadorActual, carta);
+		jugadores[posJugadorActual].tirarCarta(carta);
 	}
 	
 	//Metodo que se encarga de decirme quien es el jugador que tiene
@@ -243,7 +252,7 @@ public class Corazones implements Observable{
 	//se hace de forma habitual
 	//1 1 1 1, 2 2 2 2, 3 3 3 3, etc.
 	private void repartirCartas() {
-		for(int i = 0; i < 13; i++) {
+		for(int i = 0; i < cantCartasRepartidas; i++) {
 			for(Jugador jugador : jugadores) {
 				jugador.recibirCarta(mazo.sacarCarta());
 			} 
@@ -317,5 +326,20 @@ public class Corazones implements Observable{
 	public void agregadorObservador(Observador observador) {
 		this.observadores.add(observador);
 	}
+
+	public String cartasEnMesa() {
+		return mesa.mostrarCartasEnMesa();
+	}
 	
+	public String cartasJugadorActual() {
+		return this.jugadores[posJugadorActual].mostrarMano();
+	}
+	
+	public String jugadorActual() {
+		return jugadores[posJugadorActual].mostrarNombre();
+	}
+
+	public String ganadorJugada() {
+		return this.jugadorGanadorMano.mostrarNombre();
+	}
 }

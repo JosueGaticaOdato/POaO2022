@@ -14,6 +14,10 @@ public class Controlador implements Observador{
 	private Corazones modelo;
 	
 	private VistaConsola vista;
+
+	public String jugadorActual(){
+		return this.modelo.jugadorActual();
+	}
 	
 	public Controlador(Corazones modelo, VistaConsola vista) {
 		this.modelo = modelo;
@@ -59,9 +63,34 @@ public class Controlador implements Observador{
 				case PEDIR_CARTA:
 					this.vista.pedirCarta();
 					break;
+				case GANADOR_JUGADA:
+					this.vista.mostrarGanadorJugada();
+					break;
+				case FIN_DE_RONDA:
+					this.vista.mostrarPuntaje();
 			}
 		}
 	}
+
+
+public String mostrarCartasEnMesa() {
+	return this.modelo.cartasEnMesa();
+}
+
+
+public String mostrarCartasJugadorActual() {
+	return this.modelo.cartasJugadorActual();
+}
+
+
+public void cartaJugada(int posCarta) {
+	this.modelo.setposCartaATirar(posCarta);
+	
+}
+
+public String ganadorJugada() {
+	return this.modelo.ganadorJugada();
+}
 
 
 /**

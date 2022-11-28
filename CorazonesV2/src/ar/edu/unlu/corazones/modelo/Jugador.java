@@ -163,6 +163,14 @@ public class Jugador {
 		return this.jugadorIzquierda;
 	}
 	
+	public Carta obtenerCarta(int posCarta) {
+		return mano.get(posCarta);
+	}
+	
+	public void tirarCarta(int posCarta) {
+		mano.remove(posCarta);
+	}
+	
 	
 	/**
 	 * Test, obtener carta de la mano random
