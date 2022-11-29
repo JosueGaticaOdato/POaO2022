@@ -68,6 +68,13 @@ public class Controlador implements Observador{
 					break;
 				case FIN_DE_RONDA:
 					this.vista.mostrarPuntaje();
+					break;
+				case FIN_DE_JUEGO:
+					this.vista.finalDeJuego();
+					break;
+				case JUGO_2_DE_TREBOL:
+					this.vista.jugador2deTrebol();
+					break;
 			}
 		}
 	}
@@ -90,6 +97,18 @@ public void cartaJugada(int posCarta) {
 
 public String ganadorJugada() {
 	return this.modelo.ganadorJugada();
+}
+
+public String ganadorJuego() {
+	return this.modelo.ganadorJuego();
+}
+
+public String ganadorJuegoPuntos() {
+	return this.modelo.ganadorJuegoPuntos();
+}
+
+public String mostrarCartaJugada(int i) {
+	return this.modelo.cartaElegida(i);
 }
 
 

@@ -15,6 +15,9 @@ import ar.edu.unlu.corazones.modelo.Jugador;
  */
 
 public class VistaConsola implements IVista {
+	
+	private final int lineas = 50;
+	
 	private Scanner entrada;
 	
 	//Pongo como atributo el controlador, que se comunicara con el modelo
@@ -44,7 +47,7 @@ public class VistaConsola implements IVista {
 	public void iniciar(){
 		boolean salir = false;
 		while(!salir) {
-			limpiarPantalla(50);
+			limpiarPantalla(lineas);
 			mostrarMenu();
 			int opcion = this.entrada.nextInt();
 			switch (opcion) {
@@ -68,9 +71,13 @@ public class VistaConsola implements IVista {
 				default: //Opcion por default
 					System.out.println("Opcion no valida.");
 			}
-			System.out.println("Escriba cualquier tecla para continuar...");
-			this.entrada.next();
+			continuar();
 		}
+	}
+	
+	public void continuar() {
+		System.out.println("Escriba cualquier tecla para continuar...");
+		this.entrada.next();
 	}
 	
 	/**
@@ -101,8 +108,9 @@ public class VistaConsola implements IVista {
 	 */
 	private void jugar() {
 		System.out.println("Juego comenzado!");
+		continuar();
+		limpiarPantalla(lineas);
 		controlador.comenzarJuego();
-		//System.out.println(controlador.mostrarGanador());
 	}
 	
 	public void mostrarPuntaje() {
@@ -133,10 +141,14 @@ public class VistaConsola implements IVista {
 		System.out.println(this.controlador.mostrarCartasEnMesa());
 		System.out.println("Es el turno del jugador: "
 				+ this.controlador.jugadorActual());
+		continuar();
 		System.out.println(this.controlador.mostrarCartasJugadorActual());
 		System.out.println("Elija una carta");
 		int posCarta = entrada.nextInt();
+		System.out.println("La carta jugada fue " + controlador.mostrarCartaJugada(posCarta - 1));
 		controlador.cartaJugada(posCarta - 1);
+		continuar();
+		limpiarPantalla(lineas);
 	}
 	
 	public void limpiarPantalla(int lineas)
@@ -147,15 +159,29 @@ public class VistaConsola implements IVista {
 	 }
 	}
 
+	public void mostrarGanadorJugada() {
+		System.out.println(this.controlador.mostrarCartasEnMesa());
+		System.out.println("El jugador que se llevo todas las cartas "
+				+ "fue " + this.controlador.ganadorJugada());
+		continuar();
+		limpiarPantalla(lineas);
+	}
+
+	public void finalDeJuego() {
+		System.out.println("El ganador del juego fue: "
+				+ this.controlador.ganadorJuego() + " ya que consiguio "
+						+ "un total de " + this.controlador.ganadorJuegoPuntos());
+	}
+	
 	//Metodo que setea el controlador
 	@Override
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
 	}
 
-	public void mostrarGanadorJugada() {
-		System.out.println("El jugador que se llevo todas las cartas "
-				+ "fue " + this.controlador.ganadorJugada());
+	public void jugador2deTrebol() {
+		System.out.println("El jugador " + controlador.jugadorActual() + " tiro el 2 de trebol");
+		
 	}
 
 

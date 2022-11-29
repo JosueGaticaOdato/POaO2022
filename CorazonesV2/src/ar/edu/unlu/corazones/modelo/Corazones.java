@@ -6,15 +6,25 @@ import java.util.List;
 import ar.edu.unlu.corazones.observer.Observable;
 import ar.edu.unlu.corazones.observer.Observador;
 
+/**
+ * 
+ * Clase corazones:
+ * .Aqui se llevara a cabo toda la logica y funcionalidad del juego
+ *
+ */
+
 public class Corazones implements Observable{
 	
-	private static final int puntajeMaximo = 50;
+	/**
+	 * Constantes
+	 */
+	
+	private static final int puntajeMaximo = 12; //TESTING
 	private static final int cantJugadores = 4;
 	private static final int cantJugadasPorRonda = 13; //TESTING
 	private static final int cantCartasRepartidas = 13; //TESTING
 	private static final int maximoPasajeDeCartas = 3;
 	
-
 	/**
 	 * Atributos
 	 */
@@ -25,17 +35,22 @@ public class Corazones implements Observable{
 	//Mazo del juego
 	private Mazo mazo;
 	
-	//Rondas jugadas
+	//Rondas jugadas (En una ronda hay 13 jugadas)
 	private int ronda;
 	
 	//Mesa donde se tiraran las cartas del juego
 	private Mesa mesa;
 	
-	//
+	//Posicion del jugador actual
 	private int posJugadorActual;
+	
+	//Posicion de la carta que tirara el jugador actual
 	private int posCartaATirar;
+	
+	//Jugador que gano la mano
 	private Jugador jugadorGanadorMano;
 	
+	//Lista de observadores
 	private List<Observador> observadores;
 	
 	/**
@@ -44,8 +59,7 @@ public class Corazones implements Observable{
 	
 	//Constructor
 	public Corazones() {
-		//Inicializo las rondas en 0
-		ronda = 0;
+		ronda = 0; //Inicializo las rondas en 0
 		//Creo la instancia de los jugadores
 		jugadores = new Jugador[cantJugadores];	
 		this.observadores = new ArrayList<>();
@@ -69,15 +83,20 @@ public class Corazones implements Observable{
 		//Inicializo la ronda
 		ronda = 1;
 		boolean seTermino = false;
+		//Mientras no se termine el juego
 		while (!seTermino) {
+			//Inicio la ronda
 			iniciarRonda();
-			if (hayGanador()) {
-				seTermino = true;
+			//Notifico cuando se termino la ronda, para mostrar los puntajes
+			notificar(EventosCorazones.FIN_DE_RONDA);
+			if (hayGanador()) { //Consulto si alguien sobrepaso el puntaje maximo
+				seTermino = true; 
+				//Notifico al controlador que el juego termino
+				notificar(EventosCorazones.FIN_DE_JUEGO);
 			} else {
-				//Notifico el fin de ronda y muestro los puntajes
-				notificar(EventosCorazones.FIN_DE_RONDA);
 				ronda ++;
 			}
+			
 		}
 	}
 	
@@ -89,14 +108,13 @@ public class Corazones implements Observable{
 	 * .Tiene que determinar que cartas es capaz de tirar
 	 * .Tiene que determinar al ganador de cada jugada
 	 */
-	
 	public void iniciarRonda() {
 		//Creo el mazo
 		mazo = new Mazo();
 		//reparto las cartas a los jugadores
 		repartirCartas();
+		//Realizo el pasaje de cartas entre usuarios, segun la ronda
 		pasajeDeCartas();
-		//Jugador jugadorGanadorMano = null;
 		//Ciclo por todas las jugadas que hay en la ronda
 		for(int jugada = 0; jugada < cantJugadasPorRonda; jugada++) {
 			mesa = new Mesa(); //Creo la mesa donde se colocaran las 4 cartas
@@ -106,6 +124,7 @@ public class Corazones implements Observable{
 				posJugadorActual = jugador2Trebol(); 
 				//Obtengo al jugador del 2 de trebol
 				jugadorGanadorMano = jugadores[posJugadorActual]; 
+				notificar(EventosCorazones.JUGO_2_DE_TREBOL);
 				}
 			else { //Otra jugada que no sea la primera
 				//Obtengo la posicion del jugador que es mano
@@ -113,9 +132,6 @@ public class Corazones implements Observable{
 				//Le pido la carta a jugar
 				notificar(EventosCorazones.PEDIR_CARTA);
 				jugarCarta(posCartaATirar);
-				/**
-				 * Pido la carta al jugador que es mano
-				 */
 			}
 			//Itero con los jugadores restantes, para pedir que tiren las cartas
 			//Siempre juega el jugador que esta a la izquierda del que tiro
@@ -127,7 +143,7 @@ public class Corazones implements Observable{
 				//Pido el proximo jugador (el de la izquierda)
 				Jugador proxJugador = obtenerIzquierda(jugadores[posJugadorActual]);
 				/**
-				 * Solicito la carta
+				 * Solicito la carta al jugador
 				 */
 				posJugadorActual = proxJugador.getPosicionFisica();
 				notificar(EventosCorazones.PEDIR_CARTA);
@@ -136,21 +152,23 @@ public class Corazones implements Observable{
 				i++;
 			}
 			
-			//Determino el ganador
+			//Una vez que tiraron las cartas todos los jugadores, determino el ganador
 			jugadorGanadorMano = jugadores[mesa.determinarGanador()];
+			//Notifico quien fue el ganador de la mesa
 			notificar(EventosCorazones.GANADOR_JUGADA);
 			//Cargo las cartas al ganador
 			jugadorGanadorMano.recibirCartasRecogida(mesa.getCartasJugadasEnMesa());
 		}
-		//Calculo los puntajes de los jugadores
+		//Calculo los puntajes de los jugadores una vez finaliada la ronda
 		calcularPuntajes();
 	}
 	
+	//Setter para obtener la carta que tiro el usuario
 	public void setposCartaATirar(int posCartaATirar2) {
 		this.posCartaATirar = posCartaATirar2;
 	}
 	
-	//Metodo privada que le pide la carta a los jugadores
+	//Metodo que juega la carta del usuario
 	public void jugarCarta(int posCartaATirar2) {
 		Carta carta = jugadores[posJugadorActual].obtenerCarta(posCartaATirar2);
 		mesa.recibirCartaTirada(posJugadorActual, carta);
@@ -163,8 +181,12 @@ public class Corazones implements Observable{
 	private int jugador2Trebol() {
 		boolean encontrado = false;
 		int i = 0;
-		while(!encontrado && i < jugadores.length) {
+		while(!encontrado && i < jugadores.length) { //Busco el 2 de trebol
 			if (jugadores[i].tengoEl2DeTrebol()) {
+				/**
+				 * Indico que lo encontre, lo tiro a la mesa y lo descarto de la 
+				 * mano del jugador
+				 */
 				encontrado = true;
 				mesa.recibirCartaTirada(i, new Carta(Palo.TREBOL,2));
 				jugadores[i].tirar2Trebol();
@@ -173,13 +195,15 @@ public class Corazones implements Observable{
 		return i;
 	}
 	
-	//Metodo privado que determina si existe o no un jugador
-	//en el juego
+	//Metodo que me dice si hay un ganador
+	//El ganador se define si uno de los jugadore supera el puntaje maximo,
+	//de esta forma ganara el que tine menos puntos, ya que recolecto
+	//menos corazones.
 	private boolean hayGanador() {
 		boolean hayGanador = false;
 		int pos = 0;
 		while (!hayGanador && pos < jugadores.length) {
-			if (jugadores[0].getPuntaje() > puntajeMaximo) {
+			if (jugadores[pos].getPuntaje() > puntajeMaximo) {
 				hayGanador = true;
 			}
 			else {
@@ -236,7 +260,7 @@ public class Corazones implements Observable{
 		return s;	
 	}
 		
-	
+	/**
 	//Metodo que me muestra las mano de los jugadores
 	public String mostrarManoJugadores() {
 		String s = "";
@@ -245,11 +269,9 @@ public class Corazones implements Observable{
 					jugadores[i].mostrarMano() + "\n";
 		}
 		return s;
-	}
+	}**/
 
-
-	//Metodo que reparte las cartas a cada jugador, como 
-	//se hace de forma habitual
+	//Metodo que reparte las cartas a cada jugador, como se hace de forma habitual
 	//1 1 1 1, 2 2 2 2, 3 3 3 3, etc.
 	private void repartirCartas() {
 		for(int i = 0; i < cantCartasRepartidas; i++) {
@@ -315,6 +337,60 @@ public class Corazones implements Observable{
 		return s;
 	}
 	
+	//Mostrar cartas en mesa
+	public String cartasEnMesa() {
+		return mesa.mostrarCartasEnMesa();
+	}
+	
+	//Mostrar la mano del jugador actual
+	public String cartasJugadorActual() {
+		return this.jugadores[posJugadorActual].mostrarMano();
+	}
+	
+	//Me muestra quien es el jugador actual
+	public String jugadorActual() {
+		return jugadores[posJugadorActual].mostrarNombre();
+	}
+
+	//Muestra quien gano la jugada
+	public String ganadorJugada() {
+		return this.jugadorGanadorMano.mostrarNombre();
+	}
+
+	//Mostrar quien gano el juego
+	public String ganadorJuego() {
+		int puntaje = puntajeMaximo;
+		Jugador ganador = null;
+		int pos = 0;
+		while (pos < jugadores.length) {
+			if (jugadores[pos].getPuntaje() < puntaje) {
+				ganador = jugadores[pos];
+				puntaje = jugadores[pos].getPuntaje();
+			}
+			pos ++;
+		}
+		return ganador.mostrarNombre();
+	}
+	
+	//Muestra los puntos del ganador del juego
+	public String ganadorJuegoPuntos() {
+		int puntaje = puntajeMaximo;
+		int pos = 0;
+		while (pos < jugadores.length) {
+			if (jugadores[pos].getPuntaje() < puntaje) {
+				puntaje = jugadores[pos].getPuntaje();
+			}
+			pos ++;
+		}
+		return String.valueOf(puntaje);
+	}
+
+	//Me dice la carta que eligio el usuario
+	public String cartaElegida(int posCarta) {
+		return jugadores[posJugadorActual].obtenerCarta(posCarta).mostrarCarta();
+	}
+	
+	//Notificar los eventos
 	@Override
 	public void notificar(Object evento) {
 		for (Observador observador : this.observadores) {
@@ -322,24 +398,11 @@ public class Corazones implements Observable{
 		}
 	}
 
+	//Agregar observadores
 	@Override
 	public void agregadorObservador(Observador observador) {
 		this.observadores.add(observador);
 	}
 
-	public String cartasEnMesa() {
-		return mesa.mostrarCartasEnMesa();
-	}
-	
-	public String cartasJugadorActual() {
-		return this.jugadores[posJugadorActual].mostrarMano();
-	}
-	
-	public String jugadorActual() {
-		return jugadores[posJugadorActual].mostrarNombre();
-	}
 
-	public String ganadorJugada() {
-		return this.jugadorGanadorMano.mostrarNombre();
-	}
 }
