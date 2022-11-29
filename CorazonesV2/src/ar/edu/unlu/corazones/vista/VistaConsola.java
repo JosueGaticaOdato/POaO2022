@@ -226,15 +226,17 @@ public class VistaConsola implements IVista {
 		System.out.println("Es el turno del jugador: "
 				+ this.controlador.jugadorActual());
 		continuar();
-		System.out.println(this.controlador.mostrarCartasJugadorActual());
 	}
 	
 	//Pedir la carta para hacer el pasaje
 	public void pedirCartaPasaje() {
+		System.out.println(this.controlador.mostrarCartasJugadorActual());
 		System.out.println("Elija una carta");
 		int posCarta = entrada.nextInt();
 		System.out.println("La carta elegida fue " + controlador.mostrarCartaJugada(posCarta - 1));
 		controlador.cartaJugada(posCarta - 1);
+		continuar();
+		limpiarPantalla(lineas);
 	}
 
 	//Metodo para no mostrarle al otro jugador que jugo
