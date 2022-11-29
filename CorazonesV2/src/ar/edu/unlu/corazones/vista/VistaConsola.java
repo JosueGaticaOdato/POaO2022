@@ -1,11 +1,7 @@
 package ar.edu.unlu.corazones.vista;
 
-import java.awt.AWTException;
-import java.awt.Robot;
-import java.awt.event.KeyEvent;
 import java.util.Scanner;
 import ar.edu.unlu.corazones.controlador.Controlador;
-import ar.edu.unlu.corazones.modelo.Jugador;
 
 /**
  * 
@@ -108,10 +104,15 @@ public class VistaConsola implements IVista {
 	 * Jugar
 	 */
 	private void jugar() {
-		System.out.println("Juego comenzado!");
-		continuar();
-		limpiarPantalla(lineas);
-		controlador.comenzarJuego();
+		if (this.controlador.cantidadDeJugadoresValida()) {
+			System.out.println("Juego comenzado!");
+			continuar();
+			limpiarPantalla(lineas);
+			controlador.comenzarJuego();
+		} else {
+			System.out.println("No estan la cantidad de jugadores suficientes para jugar");
+		}
+		
 	}
 	
 	//Mostrar puntaje de los jugadores
@@ -124,6 +125,7 @@ public class VistaConsola implements IVista {
 	 * Agregar(alta):
 	 * metodo que se encarga de agregar un nuevo jugador al juego
 	 */
+	
 	private void nuevoJugador() {
 		System.out.println();
 		System.out.println("Por favor, ingrese tu nombre:");
@@ -142,6 +144,7 @@ public class VistaConsola implements IVista {
 	/**
 	 * Metodo que le pide la carta al usuario
 	 */
+	
 	public void pedirCarta() {
 		System.out.println(this.controlador.mostrarCartasEnMesa()); //Muestro lo que hay en mesa
 		System.out.println("Es el turno del jugador: "
@@ -149,10 +152,19 @@ public class VistaConsola implements IVista {
 		continuar();
 		System.out.println(this.controlador.mostrarCartasPosiblesAJugar()); //Muestro las cartas disponibles
 		//System.out.println(this.controlador.mostrarCartasJugadorActual()); //Muestro las cartas disponibles
-		System.out.println("Elija una carta");
-		int posCarta = entrada.nextInt();
-		System.out.println("La carta jugada fue " + controlador.mostrarCartaJugada(posCarta - 1)); //Muestro la que eligio
-		controlador.cartaJugada(posCarta - 1); //Paso la carta
+		System.out.println("Las cartas con * son las que se pueden jugar en esta mesa");
+		boolean cartaValida = false;
+		while (!cartaValida) {
+			System.out.println("Elija una carta");
+			int posCarta = entrada.nextInt();
+			System.out.println("La carta jugada fue " + controlador.mostrarCartaJugada(posCarta - 1)); //Muestro la que eligio
+			if (controlador.cartaValida(posCarta - 1)) {
+				cartaValida = true;
+				controlador.cartaJugada(posCarta - 1); //Paso la carta
+			} else {
+				System.out.println("Carta invalida! Solo puede tirar cartas del mismo palo que esta en la mesa");
+			}
+		}
 		continuar();
 		limpiarPantalla(lineas);
 	}
@@ -192,6 +204,7 @@ public class VistaConsola implements IVista {
 	 * PASAJE DE CARTAS:
 	 * .Muestra a quien se la tiene que pasar, y de quien es el turno
 	 */
+	
 	public void pasajeDeCartas() {
 		System.out.println("Pasaje de cartas!!");
 		String s = null;

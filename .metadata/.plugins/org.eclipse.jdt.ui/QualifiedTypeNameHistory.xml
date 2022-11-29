@@ -17,7 +17,6 @@
     <fullyQualifiedTypeName name="ar.edu.unlu.poo.utils.observer.Observable"/>
     <fullyQualifiedTypeName name="ar.edu.unlu.tpintegrador.modelo.Corazones"/>
     <fullyQualifiedTypeName name="ar.edu.unlu.tpintegrador.vista.VistaConsola"/>
-    <fullyQualifiedTypeName name="ar.edu.unlu.corazones.modelo.Corazones"/>
     <fullyQualifiedTypeName name="ar.edu.unlu.tpintegrador.controlador.Controlador"/>
     <fullyQualifiedTypeName name="ar.edu.unlu.corazones.controlador.Controlador"/>
     <fullyQualifiedTypeName name="ar.edu.unlu.corazones.observer.Observable"/>
@@ -26,4 +25,5 @@
     <fullyQualifiedTypeName name="ar.edu.unlu.corazones.modelo.Jugador"/>
     <fullyQualifiedTypeName name="ar.edu.unlu.corazones.modelo.Carta"/>
     <fullyQualifiedTypeName name="ar.edu.unlu.corazones.vista.VistaConsola"/>
+    <fullyQualifiedTypeName name="ar.edu.unlu.corazones.modelo.Corazones"/>
 </qualifiedTypeNameHistroy>

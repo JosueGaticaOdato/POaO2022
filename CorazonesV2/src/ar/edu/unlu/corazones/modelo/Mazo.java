@@ -69,7 +69,7 @@ public class Mazo {
 		for (int valorPalo = 0; valorPalo < 4; valorPalo++ ) {
 			
 			//Luego, recorro los 13 valores que tienen cada carta
-			for (int numeroCarta = 1; numeroCarta < 14; numeroCarta++) {
+			for (int numeroCarta = 2; numeroCarta < 15; numeroCarta++) {
 				//Agrego al mazo las cartas que van del 1 al 13
 				mazo[posicion] = new Carta(misPalos[valorPalo], numeroCarta);
 				posicion++;
@@ -95,26 +95,4 @@ public class Mazo {
 			mazo[posicion2] = swap;
 		}
 	}
-	
-	/** TESTEO
-	
-
-	//Metodo que muestra todas las cartas que hay en el mazo 
-	public String mostrarMazo() {
-		String s = "";
-		for (int i = 0; i < (this.tope + 1) ; i++){
-			s += mazo[i].mostrarCarta() + "\n";
-		 }
-		return s;
-	}
-	
-	public Carta tope() {
-		return mazo[this.tope];
-	}
-	
-	public Carta test(int i) {
-		return mazo[i];}
-		
-		**/
-
 }

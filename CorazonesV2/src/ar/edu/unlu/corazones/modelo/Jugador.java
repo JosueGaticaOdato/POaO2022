@@ -1,7 +1,6 @@
 package ar.edu.unlu.corazones.modelo;
 
 import java.util.ArrayList;
-import java.util.Random;
 
 /**
  * Clase jugador
@@ -46,7 +45,6 @@ public class Jugador {
 		this.puntaje = 0; //Seteo los puntos en 0
 		//Inicializo la mano y las cartas recogidas
 		mano = new ArrayList<Carta>();
-		//manoCondicionada = mano;
 		recogidas = new ArrayList<Carta>();
 		//Determino cual es el jugador siguiente
 		if ((posicion + 1) == 4) {
@@ -56,6 +54,10 @@ public class Jugador {
 			this.jugadorIzquierda = (posicion + 1);
 		}
 		this.posicionFisica = posicion;
+	}
+	
+	public int cartasEnMano() {
+		return mano.size();
 	}
 	
 	//Metodo que le da las cartas al jugador y las agrega a su mano
@@ -69,14 +71,15 @@ public class Jugador {
 	}
 	
 	//Metodo que muestra la mano del usuario
-	public String mostrarMano() {
+	public String mostrarManoNormal() {
 		String s = "";
 		for (int i = 0; i < mano.size() ; i++){
-			s += (i+1) + ")* " + mano.get(i).mostrarCarta() + "\n";
+			s += (i+1) + ") " + mano.get(i).mostrarCarta() + "\n";
 		 }
 		return s;
 	}
 	
+	//Set nombre
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
@@ -115,7 +118,7 @@ public class Jugador {
 	}
 	
 	//Metodo que me dice las cartas que puede tirar el usuario
-	public String cartasQuePuedeTirar(Carta carta){
+	public String mostrarMano(Carta carta) {
 		String s = "";
 		boolean puedeTirarCualquiera = true;
 		boolean primeraCarta = false;
@@ -124,13 +127,16 @@ public class Jugador {
 			if (carta == null) {
 				primeraCarta = true;
 			} else if (mano.get(i).getPalo() == carta.getPalo()) {
-				s += (i+1) + ")* " + mano.get(i).mostrarCarta() + "\n";
+				s += (i+1) + ") " + mano.get(i).mostrarCarta() + "*" + "\n";
 				puedeTirarCualquiera = false;
 			}
-			i++;
+			else {
+				s += (i+1) + ") " + mano.get(i).mostrarCarta() + "\n";
+				}
+			i++;		
 		}
 		if (puedeTirarCualquiera || primeraCarta) {
-			s = mostrarMano();
+			s = mostrarManoNormal();
 		}
 		return s;
 	}
@@ -173,10 +179,12 @@ public class Jugador {
 		return this.jugadorIzquierda;
 	}
 	
+	//Obtener carta a traves de la posicion
 	public Carta obtenerCarta(int posCarta) {
 		return mano.get(posCarta);
 	}
 	
+	//Tirar carta a traves de la posicion
 	public void tirarCarta(int posCarta) {
 		mano.remove(posCarta);
 	}

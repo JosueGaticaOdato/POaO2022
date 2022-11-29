@@ -63,6 +63,7 @@ public class Carta {
 			return valorTexto + "-" + palo.toString();
 	}
 	
+	//Obtener el valor real de la carta
 	private void valorCarta() {
 		if (valor >= 2 && valor <= 10) {
 			this.valorTexto = String.valueOf(this.valor);
@@ -91,7 +92,4 @@ public class Carta {
 			this.puntaje = OTRAS;
 		}
 	}
-
-
-	
 }

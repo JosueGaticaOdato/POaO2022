@@ -8,7 +8,7 @@ public class Mesa {
 	/*
 	 * Atributos
 	 */
-	private boolean corazones;
+	//private boolean corazones;
 	private Carta[] cartasJugadasEnMesa;
 	private Carta primerCartaJugada;
 	
@@ -19,7 +19,7 @@ public class Mesa {
 	//Constructor de la clase mesa
 	public Mesa() {
 		cartasJugadasEnMesa = new Carta[cartasEnMesa];
-		this.corazones = false;
+		//this.corazones = false;
 	}
 	
 	//Metodo que recibe la carta junto con el jugador y la carga en las
@@ -31,6 +31,7 @@ public class Mesa {
 		cartasJugadasEnMesa[posicionJugador] = carta;
 	}
 	
+	//Getter para obtener la primera carta que se jugo
 	public Carta getPrimerCartaJugada() {
 		return primerCartaJugada;
 	}
@@ -50,6 +51,7 @@ public class Mesa {
 		return NoesElPrimero;
 	}
 	
+	//Metodo para determinar quien fue el ganador de esa jugada
 	public int determinarGanador() {
 		Palo paloMejorCarta = primerCartaJugada.getPalo();
 		int valorMejorCarta = primerCartaJugada.getValor();
@@ -65,14 +67,17 @@ public class Mesa {
 		return posicionGanador;
 	}
 
+	//Mostrar las cartas que se jugaron
 	public Carta[] getCartasJugadasEnMesa() {
 		return cartasJugadasEnMesa;
 	}
 	
+	//Obtener la posicion del jugador que gano
 	public int posicionGanador() {
 		return this.posicionGanador();
 	}
 	
+	//Mostrar las cartas en mesa
 	public String mostrarCartasEnMesa() {
 		String s = "Cartas en mesa:"  + "\n";
 		for (int i = 0; i < cartasJugadasEnMesa.length; i++) {

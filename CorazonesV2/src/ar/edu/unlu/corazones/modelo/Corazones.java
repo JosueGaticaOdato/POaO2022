@@ -19,7 +19,7 @@ public class Corazones implements Observable{
 	 * Constantes
 	 */
 	
-	private static final int puntajeMaximo = 12; //TESTING
+	private static final int puntajeMaximo = 50; //TESTING
 	private static final int cantJugadores = 4;
 	private static final int cantJugadasPorRonda = 13; //TESTING
 	private static final int cantCartasRepartidas = 13; //TESTING
@@ -62,14 +62,16 @@ public class Corazones implements Observable{
 		ronda = 0; //Inicializo las rondas en 0
 		//Creo la instancia de los jugadores
 		jugadores = new Jugador[cantJugadores];	
+		mesa = new Mesa();
 		this.observadores = new ArrayList<>();
 		/**
 		 * Cargo default
-		 */
+		
 		agregarJugadores("a");
 		agregarJugadores("b");
 		agregarJugadores("c");
 		agregarJugadores("d");
+		**/
 	}
 	
 	/**
@@ -94,7 +96,7 @@ public class Corazones implements Observable{
 				//Notifico al controlador que el juego termino
 				notificar(EventosCorazones.FIN_DE_JUEGO);
 			} else {
-				ronda ++;
+				ronda ++; //En el caso de que no haya terminado, aumento la ronda
 			}
 			
 		}
@@ -169,7 +171,7 @@ public class Corazones implements Observable{
 	}
 	
 	//Metodo que juega la carta del usuario
-	public void jugarCarta(int posCartaATirar2) {
+	private void jugarCarta(int posCartaATirar2) {
 		Carta carta = jugadores[posJugadorActual].obtenerCarta(posCartaATirar2);
 		mesa.recibirCartaTirada(posJugadorActual, carta);
 		jugadores[posJugadorActual].tirarCarta(carta);
@@ -277,7 +279,7 @@ public class Corazones implements Observable{
 	
 	//Metodo quer realiza el pasaje de cartas entre usuarios, segun el
 	//numero de ronda
-	public void pasajeDeCartas() {
+	private void pasajeDeCartas() {
 		int pasaje = this.ronda % 4;
 		
 		/**
@@ -324,7 +326,7 @@ public class Corazones implements Observable{
 	}
 
 	//Metodo que calcula el puntaje de cada jugador
-	public void calcularPuntajes() {
+	private void calcularPuntajes() {
 		for(int i = 0; i < jugadores.length; i++) {
 			jugadores[i].contarPuntos();
 		}
@@ -347,7 +349,7 @@ public class Corazones implements Observable{
 	
 	//Mostrar la mano del jugador actual
 	public String cartasJugadorActual() {
-		return this.jugadores[posJugadorActual].mostrarMano();
+		return this.jugadores[posJugadorActual].mostrarMano(mesa.getPrimerCartaJugada());
 	}
 	
 	//Me muestra quien es el jugador actual
@@ -398,6 +400,57 @@ public class Corazones implements Observable{
 		return this.ronda;
 	}
 	
+	//Muestro las cartas que puede jugar el usuario
+	public String cartasPosiblesAJugar() {
+		return jugadores[posJugadorActual].mostrarMano(mesa.getPrimerCartaJugada());
+	}
+	
+	//Metodo privado propia de carta tirada, que me dice si el jugador
+	//puede tirar cualquier carta
+	private boolean puedeTirarCualquiera(Carta mesa) {
+		boolean puedeTirarCualquiera = true;
+		int i = 0;
+		while (i < jugadores[posJugadorActual].cartasEnMano() && puedeTirarCualquiera) {
+			if (mesa == null) { //Si la carta en mesa es nula, quiere decir que puede tirar cualquiera
+				i = jugadores[posJugadorActual].cartasEnMano(); //Corto el ciclo
+			//Consulto si tiene cartas en la mano del mismo palo que la que esta en mesa
+			//eso quiere decir que no puede tirar cualquiera, sino las del mismo palo
+			} else if (jugadores[posJugadorActual].obtenerCarta(i).getPalo() == mesa.getPalo()) {
+				puedeTirarCualquiera = false;
+			}
+			i++;
+		}
+		return puedeTirarCualquiera;
+	}
+
+	//Metodo que me determina si la carta que tira el usuario es valida o no
+	public boolean cartaTiradaValida(int posCarta) {
+		boolean cartaTiradaValida = false; //Bandera que valida la carta
+		//Consulto si el usuario puede tirar cualquier carta de su mano
+		if (puedeTirarCualquiera(mesa.getPrimerCartaJugada())) {
+			cartaTiradaValida = true;
+		//Sino, tengo que ver que la carta que tiro sea del mismo palo de la primera que esta en la mesa
+		} else if (jugadores[posJugadorActual].obtenerCarta(posCarta).getPalo() == mesa.getPrimerCartaJugada().getPalo()) {
+			cartaTiradaValida = true;
+		}
+		return cartaTiradaValida; //Devuelvo si el valida o no
+	}
+	
+	public boolean cantidadDeJugadoresValida() {
+		int cantidad = 0;
+		for (int i = 0; i < jugadores.length; i++) {
+			if (jugadores[i] != null) {
+				cantidad++;
+			}
+		}
+		return (cantidad == cantJugadores);
+	}
+		
+	
+	/**
+	 * MVC OBSERVER
+	 */
+	
 	//Notificar los eventos
 	@Override
 	public void notificar(Object evento) {
@@ -411,10 +464,4 @@ public class Corazones implements Observable{
 	public void agregadorObservador(Observador observador) {
 		this.observadores.add(observador);
 	}
-
-	public String cartasPosiblesAJugar() {
-		return jugadores[posJugadorActual].cartasQuePuedeTirar(mesa.getPrimerCartaJugada());
-	}
-
-
 }
