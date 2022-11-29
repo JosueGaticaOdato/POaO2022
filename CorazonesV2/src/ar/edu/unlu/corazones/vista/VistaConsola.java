@@ -147,7 +147,8 @@ public class VistaConsola implements IVista {
 		System.out.println("Es el turno del jugador: "
 				+ this.controlador.jugadorActual()); //Digo quien tiene que jugar
 		continuar();
-		System.out.println(this.controlador.mostrarCartasJugadorActual()); //Muestro las cartas disponibles
+		System.out.println(this.controlador.mostrarCartasPosiblesAJugar()); //Muestro las cartas disponibles
+		//System.out.println(this.controlador.mostrarCartasJugadorActual()); //Muestro las cartas disponibles
 		System.out.println("Elija una carta");
 		int posCarta = entrada.nextInt();
 		System.out.println("La carta jugada fue " + controlador.mostrarCartaJugada(posCarta - 1)); //Muestro la que eligio

@@ -259,17 +259,6 @@ public class Corazones implements Observable{
 		}
 		return s;	
 	}
-		
-	/**
-	//Metodo que me muestra las mano de los jugadores
-	public String mostrarManoJugadores() {
-		String s = "";
-		for(int i = 0; i < jugadores.length; i++) {
-			s += "Jugador: " + (i+1) + " - " + jugadores[i].mostrarNombre() + "\n" +
-					jugadores[i].mostrarMano() + "\n";
-		}
-		return s;
-	}**/
 
 	//Metodo que reparte las cartas a cada jugador, como se hace de forma habitual
 	//1 1 1 1, 2 2 2 2, 3 3 3 3, etc.
@@ -421,6 +410,10 @@ public class Corazones implements Observable{
 	@Override
 	public void agregadorObservador(Observador observador) {
 		this.observadores.add(observador);
+	}
+
+	public String cartasPosiblesAJugar() {
+		return jugadores[posJugadorActual].cartasQuePuedeTirar(mesa.getPrimerCartaJugada());
 	}
 
 

@@ -31,6 +31,10 @@ public class Mesa {
 		cartasJugadasEnMesa[posicionJugador] = carta;
 	}
 	
+	public Carta getPrimerCartaJugada() {
+		return primerCartaJugada;
+	}
+
 	//Metodo que me dice si es la primera carta que se juega
 	//Esto es fundamental ya que el palo de esta determina
 	//cual sera la carta mas alta

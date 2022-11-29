@@ -124,6 +124,10 @@ public String mostrarCartaJugada(int i) {
 	return this.modelo.cartaElegida(i);
 }
 
+public String mostrarCartasPosiblesAJugar() {
+	return this.modelo.cartasPosiblesAJugar();
+}
+
 
 /**
 	public void cartaElegida(int posCarta) {

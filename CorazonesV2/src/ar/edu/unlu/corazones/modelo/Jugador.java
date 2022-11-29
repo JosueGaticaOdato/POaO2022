@@ -27,6 +27,9 @@ public class Jugador {
 	//Cartas recogidas durante las jugadas
 	private ArrayList<Carta> recogidas;
 	
+	//Cartas que puede tirar el usuario de su mano
+	//private ArrayList<Carta> manoCondicionada;
+	
 	//Posicion del Jugador en el arreglo
 	private int posicionFisica;
 	
@@ -43,6 +46,7 @@ public class Jugador {
 		this.puntaje = 0; //Seteo los puntos en 0
 		//Inicializo la mano y las cartas recogidas
 		mano = new ArrayList<Carta>();
+		//manoCondicionada = mano;
 		recogidas = new ArrayList<Carta>();
 		//Determino cual es el jugador siguiente
 		if ((posicion + 1) == 4) {
@@ -68,7 +72,7 @@ public class Jugador {
 	public String mostrarMano() {
 		String s = "";
 		for (int i = 0; i < mano.size() ; i++){
-			s += (i+1) + ") " + mano.get(i).mostrarCarta() + "\n";
+			s += (i+1) + ")* " + mano.get(i).mostrarCarta() + "\n";
 		 }
 		return s;
 	}
@@ -111,18 +115,24 @@ public class Jugador {
 	}
 	
 	//Metodo que me dice las cartas que puede tirar el usuario
-	public ArrayList<Carta> cartasQuePuedeTirar(boolean corazones, Palo palo){
-		ArrayList<Carta> cartasPosibles = new ArrayList<Carta>();
-		for (int i = 0; i < mano.size(); i++) {
-			if ((mano.get(i).getPalo() == palo) || (mano.get(i).getPalo() == Palo.CORAZONES &&
-					corazones)) {
-				cartasPosibles.add(mano.get(i));
-			} 
+	public String cartasQuePuedeTirar(Carta carta){
+		String s = "";
+		boolean puedeTirarCualquiera = true;
+		boolean primeraCarta = false;
+		int i = 0;
+		while (i < mano.size() && !primeraCarta) {
+			if (carta == null) {
+				primeraCarta = true;
+			} else if (mano.get(i).getPalo() == carta.getPalo()) {
+				s += (i+1) + ")* " + mano.get(i).mostrarCarta() + "\n";
+				puedeTirarCualquiera = false;
+			}
+			i++;
 		}
-		if (cartasPosibles.isEmpty()) {
-			cartasPosibles = mano;
+		if (puedeTirarCualquiera || primeraCarta) {
+			s = mostrarMano();
 		}
-		return cartasPosibles;
+		return s;
 	}
 	
 	//Metodo que me dice si este jugador es quien inicia la ronda
@@ -170,15 +180,4 @@ public class Jugador {
 	public void tirarCarta(int posCarta) {
 		mano.remove(posCarta);
 	}
-	
-	
-	/**
-	 * Test, obtener carta de la mano random
-	 */
-	public Carta cartaRandom() {
-		Random random = new Random();
-		return mano.get(random.nextInt(mano.size()));
-	}
-	
-	
 }
