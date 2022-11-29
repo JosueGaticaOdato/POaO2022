@@ -15,6 +15,10 @@ public class Controlador implements Observador{
 	
 	private VistaConsola vista;
 
+	public int numeroRonda() {
+		return this.modelo.getRonda();
+	}
+
 	public String jugadorActual(){
 		return this.modelo.jugadorActual();
 	}
@@ -74,6 +78,15 @@ public class Controlador implements Observador{
 					break;
 				case JUGO_2_DE_TREBOL:
 					this.vista.jugador2deTrebol();
+					break;
+				case PASAJE_DE_CARTAS:
+					this.vista.pasajeDeCartas();
+					break;
+				case PEDIR_CARTA_PASAJE:
+					this.vista.pedirCartaPasaje();
+					break;
+				case FIN_PASAJE_DE_CARTAS:
+					this.vista.finPasajeDeCartas();
 					break;
 			}
 		}

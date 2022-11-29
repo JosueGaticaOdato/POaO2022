@@ -75,6 +75,7 @@ public class VistaConsola implements IVista {
 		}
 	}
 	
+	//Metodo para cotinaar y no sacar la pantalla de una
 	public void continuar() {
 		System.out.println("Escriba cualquier tecla para continuar...");
 		this.entrada.next();
@@ -113,6 +114,7 @@ public class VistaConsola implements IVista {
 		controlador.comenzarJuego();
 	}
 	
+	//Mostrar puntaje de los jugadores
 	public void mostrarPuntaje() {
 		System.out.println("Puntaje de los jugadores:");
 		System.out.println(controlador.mostrarPuntajes());
@@ -137,20 +139,24 @@ public class VistaConsola implements IVista {
 		}
 	}
 	
+	/**
+	 * Metodo que le pide la carta al usuario
+	 */
 	public void pedirCarta() {
-		System.out.println(this.controlador.mostrarCartasEnMesa());
+		System.out.println(this.controlador.mostrarCartasEnMesa()); //Muestro lo que hay en mesa
 		System.out.println("Es el turno del jugador: "
-				+ this.controlador.jugadorActual());
+				+ this.controlador.jugadorActual()); //Digo quien tiene que jugar
 		continuar();
-		System.out.println(this.controlador.mostrarCartasJugadorActual());
+		System.out.println(this.controlador.mostrarCartasJugadorActual()); //Muestro las cartas disponibles
 		System.out.println("Elija una carta");
 		int posCarta = entrada.nextInt();
-		System.out.println("La carta jugada fue " + controlador.mostrarCartaJugada(posCarta - 1));
-		controlador.cartaJugada(posCarta - 1);
+		System.out.println("La carta jugada fue " + controlador.mostrarCartaJugada(posCarta - 1)); //Muestro la que eligio
+		controlador.cartaJugada(posCarta - 1); //Paso la carta
 		continuar();
 		limpiarPantalla(lineas);
 	}
 	
+	//Limpieza de pantalla (en realidad agrega lineas)
 	public void limpiarPantalla(int lineas)
 	{
 	 for (int i=0; i < lineas; i++)
@@ -159,6 +165,7 @@ public class VistaConsola implements IVista {
 	 }
 	}
 
+	//Metodo que me muestra quien gano la jugada
 	public void mostrarGanadorJugada() {
 		System.out.println(this.controlador.mostrarCartasEnMesa());
 		System.out.println("El jugador que se llevo todas las cartas "
@@ -167,21 +174,65 @@ public class VistaConsola implements IVista {
 		limpiarPantalla(lineas);
 	}
 
+	//Fin del juego, muestra quien gano y por cuantos puntos
 	public void finalDeJuego() {
 		System.out.println("El ganador del juego fue: "
 				+ this.controlador.ganadorJuego() + " ya que consiguio "
 						+ "un total de " + this.controlador.ganadorJuegoPuntos());
+	}
+
+	//Muestra quien fue el jugador que tiro el 2 de trebol
+	public void jugador2deTrebol() {
+		System.out.println("El jugador " + controlador.jugadorActual() + " tiro el 2 de trebol");
+		
+	}
+
+	/**
+	 * PASAJE DE CARTAS:
+	 * .Muestra a quien se la tiene que pasar, y de quien es el turno
+	 */
+	public void pasajeDeCartas() {
+		System.out.println("Pasaje de cartas!!");
+		String s = null;
+		switch (this.controlador.numeroRonda() % 4) {
+			case 0:
+				s = ", las cartas se pasaran a la izquierda";
+				break;
+			case 1:
+				s = ", las cartas se pasaran al frente";
+				break;
+			case 2:
+				s = ", las cartas se pasaran a la derecha";
+				break;
+			case 3:
+				s = ", las cartas no se pasaran.";
+				break;
+		}
+		System.out.println("Por ser la ronda " + this.controlador.numeroRonda() + s);
+		System.out.println("Es el turno del jugador: "
+				+ this.controlador.jugadorActual());
+		continuar();
+		System.out.println(this.controlador.mostrarCartasJugadorActual());
+	}
+	
+	//Pedir la carta para hacer el pasaje
+	public void pedirCartaPasaje() {
+		System.out.println("Elija una carta");
+		int posCarta = entrada.nextInt();
+		System.out.println("La carta elegida fue " + controlador.mostrarCartaJugada(posCarta - 1));
+		controlador.cartaJugada(posCarta - 1);
+	}
+
+	//Metodo para no mostrarle al otro jugador que jugo
+	public void finPasajeDeCartas() {
+		continuar();
+		limpiarPantalla(lineas);
 	}
 	
 	//Metodo que setea el controlador
 	@Override
 	public void setControlador(Controlador controlador) {
 		this.controlador = controlador;
-	}
-
-	public void jugador2deTrebol() {
-		System.out.println("El jugador " + controlador.jugadorActual() + " tiro el 2 de trebol");
-		
 	}
 
 

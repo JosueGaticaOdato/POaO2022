@@ -290,32 +290,46 @@ public class Corazones implements Observable{
 	//numero de ronda
 	public void pasajeDeCartas() {
 		int pasaje = this.ronda % 4;
+		
 		/**
 		 * CASOS:
-		 * 	1. Pasaje de 0: Se realiza el pasaje a la izquierda
-		 *  2. Pasaje de 1: Se realiza el pasaje al frente
-		 *  3. Pasaje de 2: Se realiza el pasaje a la derecha
-		 *  4. Pasaje de 3: No hay pasaje
+		 * 	1. Pasaje de 1: Se realiza el pasaje a la izquierda
+		 *  2. Pasaje de 2: Se realiza el pasaje al frente
+		 *  3. Pasaje de 3: Se realiza el pasaje a la derecha
+		 *  4. Pasaje de 0: No hay pasaje
 		 */
 		
 		//Primer for por la cantida de jugadores
+		if (pasaje != 0) { //Primero consulto si tengo que pasar las cartas o no
 		for(int jugador = 0; jugador < jugadores.length; jugador++) {
+			//Tengo el jugador actual
+			posJugadorActual = jugador;
+			//Aviso que voy a realizar el pasaje de cartas
+			notificar(EventosCorazones.PASAJE_DE_CARTAS);
 			//Segundo for por la cantidad de cartas que se van a pasar
 			for (int cartasPasadas = 0; cartasPasadas < maximoPasajeDeCartas; cartasPasadas++ ) {
-				//Recibo la carta
-				Carta carta = jugadores[jugador].cartaRandom();
-				//Carta carta = jugadores[jugador].tirarCarta(null);
-				jugadores[jugador].tirarCarta(carta);
-				if (pasaje == 0) { //CASO 1: A LA IZQUIERDA
-					jugadores[jugadores[jugador].obtenerIzquierda()].recibirCarta(carta);
-				} else if (pasaje == 1) { //CASO 2: AL FRENTE
-					jugadores[jugadores[jugadores[jugador]
-							.obtenerIzquierda()].obtenerIzquierda()].recibirCarta(carta);
-				} else { //CASO 3: A LA DERECHA
-						jugadores[jugadores[jugadores[jugadores[jugador]
-								.obtenerIzquierda()].obtenerIzquierda()].
-						          obtenerIzquierda()].recibirCarta(carta);
+					//Recibo la carta
+					notificar(EventosCorazones.PEDIR_CARTA_PASAJE);
+					Carta carta = jugadores[jugador].obtenerCarta(posCartaATirar);
+					//La saco de la mano del jugador
+					jugadores[jugador].tirarCarta(posCartaATirar);
+					switch(pasaje) {
+						case 1: //CASO 1: A LA IZQUIERDA
+							jugadores[jugadores[jugador].obtenerIzquierda()].recibirCarta(carta);
+							break;
+						case 2: //CASO 2: AL FRENTE
+							jugadores[jugadores[jugadores[jugador]
+									.obtenerIzquierda()].obtenerIzquierda()].recibirCarta(carta);
+							break;
+						case 3: //CASO 3: A LA DERECHA
+							jugadores[jugadores[jugadores[jugadores[jugador]
+									.obtenerIzquierda()].obtenerIzquierda()].
+							          obtenerIzquierda()].recibirCarta(carta);
+							break;
+					}
 				}
+			//Notifico que el usuario x dejo de pasar sus cartas
+			notificar(EventosCorazones.FIN_PASAJE_DE_CARTAS);
 			}
 		}
 	}
@@ -388,6 +402,11 @@ public class Corazones implements Observable{
 	//Me dice la carta que eligio el usuario
 	public String cartaElegida(int posCarta) {
 		return jugadores[posJugadorActual].obtenerCarta(posCarta).mostrarCarta();
+	}
+	
+	//Getter con el numero de ronda
+	public int getRonda() {
+		return this.ronda;
 	}
 	
 	//Notificar los eventos
