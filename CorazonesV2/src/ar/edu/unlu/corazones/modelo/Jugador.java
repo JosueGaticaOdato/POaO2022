@@ -3,16 +3,16 @@ package ar.edu.unlu.corazones.modelo;
 import java.util.ArrayList;
 
 /**
- * Clase jugador
+ * CLASE JUGADOR
  * Se encarga de realizar todos los movimientos dentro del juego
  * Es el que impulsa al juego y sus decisiones afectan a su funcionamiento
  *
  */
 public class Jugador {
 	
-	/**
-	 * Atributos
-	 */
+	// *************************************************************
+	//                        ATRIBUTOS
+	// *************************************************************
 	
 	//Nombre del jugador
 	private String nombre;
@@ -26,39 +26,35 @@ public class Jugador {
 	//Cartas recogidas durante las jugadas
 	private ArrayList<Carta> recogidas;
 	
-	//Cartas que puede tirar el usuario de su mano
-	//private ArrayList<Carta> manoCondicionada;
-	
 	//Posicion del Jugador en el arreglo
 	private int posicionFisica;
 	
 	//Referencial al jugador de la izq
 	private int jugadorIzquierda;
 	
-	/**
-	 * Comportamiento
-	 */
+	// *************************************************************
+	//                       CONSTRUCTOR
+	// *************************************************************
 	
 	//Constructor de la clase jugador
 	public Jugador(String nombre, int posicion) {
 		this.nombre = nombre; //Determino el nombre del jugador
 		this.puntaje = 0; //Seteo los puntos en 0
-		//Inicializo la mano y las cartas recogidas
-		mano = new ArrayList<Carta>();
+		mano = new ArrayList<Carta>();//Inicializo la mano y las cartas recogidas
 		recogidas = new ArrayList<Carta>();
 		//Determino cual es el jugador siguiente
 		if ((posicion + 1) == 4) {
-			this.jugadorIzquierda = 0;
+			this.jugadorIzquierda = 0; //Si es el jugador 4, a mi izquierda esta el jugador 0 o inicial
 		}
 		else {
-			this.jugadorIzquierda = (posicion + 1);
+			this.jugadorIzquierda = (posicion + 1); //Sino, es el de la izquierda correspondiente
 		}
 		this.posicionFisica = posicion;
 	}
 	
-	public int cartasEnMano() {
-		return mano.size();
-	}
+	// *************************************************************
+	//                       COMPORTAMIENTO
+	// *************************************************************
 	
 	//Metodo que le da las cartas al jugador y las agrega a su mano
 	public void recibirCarta(Carta carta) {
@@ -78,11 +74,6 @@ public class Jugador {
 		 }
 		return s;
 	}
-	
-	//Set nombre
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
 
 	//Metodo que le da las cartas al jugador y las guarda en las cartas recogidas
 	// (de esta forma puedo calcular los puntos)
@@ -101,41 +92,33 @@ public class Jugador {
 		this.puntaje += contador; //Cargo los puntos
 	}
 	
-	//Getter que obtiene el puntaje del jugador
-	public int getPuntaje() {
-		return this.puntaje;
-	}
-	
 	//Metodo que, una vez terminada la ronda, devuelve todas
 	// las recogidas
 	private void resetRecogidas() {
 		recogidas.clear();
 	}
 
-	//Getter del nombre del jugador
-	public String mostrarNombre() {
-		return nombre;
-	}
+
 	
-	//Metodo que me dice las cartas que puede tirar el usuario
+	//Metodo que me dice las cartas que puede tirar el usuario, que recibe la primera carta que se tiro en mesa
 	public String mostrarMano(Carta carta) {
 		String s = "";
 		boolean puedeTirarCualquiera = true;
 		boolean primeraCarta = false;
 		int i = 0;
 		while (i < mano.size() && !primeraCarta) {
-			if (carta == null) {
+			if (carta == null) { //Si la carta es nula, quiere decir que el arranca la jugada
 				primeraCarta = true;
-			} else if (mano.get(i).getPalo() == carta.getPalo()) {
-				s += (i+1) + ") " + mano.get(i).mostrarCarta() + "*" + "\n";
+			} else if (mano.get(i).getPalo() == carta.getPalo()) { //Si coincide la carta en mesa con la que tiene en mano
+				s += (i+1) + ") " + mano.get(i).mostrarCarta() + "*" + "\n"; //Esa carta si la puede tirar
 				puedeTirarCualquiera = false;
 			}
 			else {
-				s += (i+1) + ") " + mano.get(i).mostrarCarta() + "\n";
+				s += (i+1) + ") " + mano.get(i).mostrarCarta() + "\n"; //Sino, es una carta que no puede tirar
 				}
 			i++;		
 		}
-		if (puedeTirarCualquiera || primeraCarta) {
+		if (puedeTirarCualquiera || primeraCarta) { //Si uno de los dos es verdadero, puede tirar cualquier carta
 			s = mostrarManoNormal();
 		}
 		return s;
@@ -159,7 +142,7 @@ public class Jugador {
 		boolean borrado = false;
 		int i = 0;
 		while (!borrado) {
-			if (mano.get(i).getPalo() == Palo.TREBOL && mano.get(i).getValor() == 2) {
+			if (mano.get(i).getPalo() == Palo.TREBOL && mano.get(i).getValor() == 2) { //Primero busco el 2 de trebol
 				mano.remove(i);
 				borrado = true;			
 			}
@@ -168,6 +151,24 @@ public class Jugador {
 			}
 		}
 	}
+	
+	//Tirar carta a traves de la posicion
+	public void tirarCarta(int posCarta) {
+		mano.remove(posCarta);
+	}
+	
+	// *************************************************************
+	//                      SETTERS
+	// *************************************************************
+	
+	//Set nombre
+	public void setNombre(String nombre) {
+		this.nombre = nombre;
+	}
+	
+	// *************************************************************
+	//                      GETTERS
+	// *************************************************************
 	
 	//Get Posicion del jugador
 	public int getPosicionFisica() {
@@ -184,8 +185,19 @@ public class Jugador {
 		return mano.get(posCarta);
 	}
 	
-	//Tirar carta a traves de la posicion
-	public void tirarCarta(int posCarta) {
-		mano.remove(posCarta);
+	//Getter del nombre del jugador
+	public String mostrarNombre() {
+		return nombre;
 	}
+	
+	//Metodo que muestra las cartas en mano del jugador
+	public int cartasEnMano() {
+		return mano.size();
+	}
+	
+	//Getter que obtiene el puntaje del jugador
+	public int getPuntaje() {
+		return this.puntaje;
+	}
+	
 }

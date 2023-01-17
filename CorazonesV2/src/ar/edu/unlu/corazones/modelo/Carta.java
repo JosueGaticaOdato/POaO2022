@@ -1,22 +1,27 @@
 package ar.edu.unlu.corazones.modelo;
 
 /**
- * Clase carta
- * 	Objeto que identificara las cartas que se utilizan en el jueg
+ * CLASE CARTA
+ * 	Objeto que identificara las cartas que se utilizan en el juego
  * 	En este caso, el puntaje de las cartas se determina en la iniciliazacion del objeto,
  *  segun el palo al que pertenezca la carta
  *
  */
 public class Carta {
 	
-	/**
-	 * Atributos
-	 */
+	// *************************************************************
+	//                        CONSTANTES
+	// *************************************************************
 	
 	//Constantes del valor de las cartas
 	private final int DAMADEPICAS = 13;
 	private final int CORAZONES = 1;
 	private final int OTRAS = 0;
+	
+	// *************************************************************
+	//                        ATRIBUTOS
+	// *************************************************************
+
 	
 	//Valor del palo que tiene la carta
 	private Palo palo;
@@ -30,11 +35,10 @@ public class Carta {
 	//Puntaje que tiene la carta en el juego Corazones
 	private int puntaje;
 	
-	/**
-	 * Comportamiento
-	 */
+	// *************************************************************
+	//                       CONSTRUCTOR
+	// *************************************************************
 	
-	//Constructor de la clase Carta
 	public Carta(Palo palo, int valor) {
 		this.palo = palo;
 		this.valor = valor;
@@ -43,20 +47,9 @@ public class Carta {
 		valorCarta();
 	}
 	
-	//Getter para obtener el valor del palo de la carta
-	public Palo getPalo() {
-		return palo;
-	}
-
-	//Getter para obtener el valor del palo de la carta
-	public int getValor() {
-		return valor;
-	}
-	
-	//Getter para obtener el puntaje de la carta
-	public int getPuntaje() {
-		return this.puntaje;
-	}
+	// *************************************************************
+	//                       COMPORTAMIENTO
+	// *************************************************************
 	
 	//Metodo que muestra la carta en forma de string
 	public String mostrarCarta() {
@@ -91,5 +84,24 @@ public class Carta {
 		} else {
 			this.puntaje = OTRAS;
 		}
+	}
+	
+	// *************************************************************
+	//                      GETTERS
+	// *************************************************************
+	
+	//Getter para obtener el valor del palo de la carta
+	public Palo getPalo() {
+		return palo;
+	}
+
+	//Getter para obtener el valor del palo de la carta
+	public int getValor() {
+		return valor;
+	}
+	
+	//Getter para obtener el puntaje de la carta
+	public int getPuntaje() {
+		return this.puntaje;
 	}
 }

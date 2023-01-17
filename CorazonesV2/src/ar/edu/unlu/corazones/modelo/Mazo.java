@@ -3,7 +3,7 @@ package ar.edu.unlu.corazones.modelo;
 import java.util.Random;
 
 /**
- * Mazo:
+ * CLASE MAZO:
  *	Objeto donde estaran las cartas a jugar
  *  El mazo es una pila (implementada como array) donde 
  *  se le reparten a los jugadores las cartas que estan en el tope del mazo
@@ -11,10 +11,10 @@ import java.util.Random;
  */
 
 public class Mazo {
-
-	/**
-	 * Atributos
-	 */
+	
+	// *************************************************************
+	//                        CONSTANTES
+	// *************************************************************
 	
 	//Cantidad de cartas fija
 	public final int Cant_Cartas = 52;
@@ -22,6 +22,10 @@ public class Mazo {
 	//Cantidad de veces que se le hacen los swaps a las cartas
 	//(Mayor sera el mayor, mejor sera la mezcla)
 	public final int Cant_Mezcla = 50;
+
+	// *************************************************************
+	//                        ATRIBUTOS
+	// *************************************************************
 	
 	//El mazo, que sera un array de cartas
 	private Carta[] mazo;
@@ -29,9 +33,9 @@ public class Mazo {
 	//Posicion del tope del mazo
 	private int tope;
 	
-	/**
-	 * Comportamiento
-	 */
+	// *************************************************************
+	//                       CONSTRUCTOR
+	// *************************************************************
 	
 	//Constructor de la clase Mazo
 	public Mazo() {
@@ -44,8 +48,11 @@ public class Mazo {
 		
 	}
 	
-	//Metodo que saca la carta del tope
-	//del mazo
+	// *************************************************************
+	//                       COMPORTAMIENTO
+	// *************************************************************
+	
+	//Metodo que saca la carta del tope del mazo
 	public Carta sacarCarta() {
 		//Obtengo la carta que saque
 		Carta cartaSacada = mazo[this.tope];

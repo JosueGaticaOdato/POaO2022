@@ -7,17 +7,23 @@ import ar.edu.unlu.corazones.observer.Observador;
 import ar.edu.unlu.corazones.vista.VistaConsola;
 
 /**
- * 
- *	Controlador:
+ *	CONTROLADOR
  *	.Encargado de la comunicacion entre la vista y el juego
- *
  */
 public class Controlador implements Observador{
+	
+	// *************************************************************
+	//                       ATRIBUTOS
+	// *************************************************************
+	
 	private Corazones modelo;
 	
 	private VistaConsola vista;
 	
-	//Constructor
+	// *************************************************************
+	//                       CONSTRUCTOR
+	// *************************************************************
+	
 	public Controlador(Corazones modelo, VistaConsola vista) {
 		this.modelo = modelo;
 		this.vista = vista;
@@ -25,9 +31,10 @@ public class Controlador implements Observador{
 		this.modelo.agregadorObservador(this);
 	}	
 
-	/**
-	 * DESDE VISTA A MODELO
-	 */
+	// *************************************************************
+	//                       COMPORTAMIENTO
+	//                    DESDE LA VISTA AL MODELO
+	// *************************************************************
 	
 	public boolean cartaValida(int posCarta) {
 		return this.modelo.cartaTiradaValida(posCarta);
@@ -46,7 +53,6 @@ public class Controlador implements Observador{
 	}
 
 	public String listaJugadores() {
-		// TODO Auto-generated method stub
 		return this.modelo.mostrarJugadores();
 	}
 
@@ -99,9 +105,9 @@ public class Controlador implements Observador{
 		return this.modelo.cantidadDeJugadoresValida();
 	}
 	
-	/*
-	 * DESDE MODELO A VISTA
-	 */
+	// *************************************************************
+	//                    DESDE MODELO A VISTA
+	// *************************************************************
 	
 	@Override
 	public void actualizar(Object evento, Observable observador) {
