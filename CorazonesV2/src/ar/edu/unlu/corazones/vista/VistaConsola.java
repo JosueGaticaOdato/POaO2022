@@ -225,7 +225,7 @@ public class VistaConsola implements IVista {
 				s = s + "se pasaran a la izquierda";
 				break;
 			case 1:
-				s = s + "se pasaran a la frente";
+				s = s + "se pasaran al frente";
 				break;
 			case 2:
 				s = s + "se pasaran a la derecha";

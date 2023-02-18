@@ -40,7 +40,8 @@ public class Jugador {
 	public Jugador(String nombre, int posicion) {
 		this.nombre = nombre; //Determino el nombre del jugador
 		this.puntaje = 0; //Seteo los puntos en 0
-		mano = new ArrayList<Carta>();//Inicializo la mano y las cartas recogidas
+		//Inicializo la mano y las cartas recogidas
+		mano = new ArrayList<Carta>();
 		recogidas = new ArrayList<Carta>();
 		//Determino cual es el jugador siguiente
 		if ((posicion + 1) == 4) {
@@ -98,27 +99,28 @@ public class Jugador {
 		recogidas.clear();
 	}
 
-
 	
 	//Metodo que me dice las cartas que puede tirar el usuario, que recibe la primera carta que se tiro en mesa
 	public String mostrarMano(Carta carta) {
 		String s = "";
-		boolean puedeTirarCualquiera = true;
-		boolean primeraCarta = false;
+		boolean isJugarCualquierCarta = true; //Jugar cualquier carta implica que este jugador inicia la mano
+		boolean isPrimeraCarta = false;
 		int i = 0;
-		while (i < mano.size() && !primeraCarta) {
-			if (carta == null) { //Si la carta es nula, quiere decir que el arranca la jugada
-				primeraCarta = true;
-			} else if (mano.get(i).getPalo() == carta.getPalo()) { //Si coincide la carta en mesa con la que tiene en mano
+		//Si la carta es nula, quiere decir que el arranca la jugada
+		if (carta == null) { 
+			isPrimeraCarta = true;}
+		while (i < mano.size() && !isPrimeraCarta) {
+			//Si coincide la carta en mesa con la que tiene en mano
+			if (mano.get(i).getPalo() == carta.getPalo()) { 
 				s += (i+1) + ") " + mano.get(i).mostrarCarta() + "*" + "\n"; //Esa carta si la puede tirar
-				puedeTirarCualquiera = false;
+				isJugarCualquierCarta = false;
 			}
 			else {
 				s += (i+1) + ") " + mano.get(i).mostrarCarta() + "\n"; //Sino, es una carta que no puede tirar
 				}
 			i++;		
 		}
-		if (puedeTirarCualquiera || primeraCarta) { //Si uno de los dos es verdadero, puede tirar cualquier carta
+		if (isJugarCualquierCarta || isPrimeraCarta) { //Si uno de los dos es verdadero, puede tirar cualquier carta
 			s = mostrarManoNormal();
 		}
 		return s;

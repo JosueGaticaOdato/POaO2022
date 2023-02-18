@@ -107,7 +107,7 @@ public class Corazones implements Observable{
 	//                     	 INICIO DE LA RONDA
 	// .Tiene que crear el mazo para comenzar
 	// .Tiene que repartir las 13 cartas a cada jugador
-	// .Tiene que solicitar las cartas la jugador para que las tire en la mesa
+	// .Tiene que solicitar las cartas al jugador para que las tire en la mesa
 	// .Tiene que determinar que cartas es capaz de tirar
 	// .Tiene que determinar al ganador de cada jugada
 	// **************************************************************
@@ -120,8 +120,7 @@ public class Corazones implements Observable{
 		for(int jugada = 0; jugada < cantJugadasPorRonda; jugada++) {
 			mesa = new Mesa(); //Creo la mesa donde se colocaran las 4 cartas
 			if (jugada == 0) { //Primera jugada, se tira el 2 de trebol
-				//Obtengo la posicion del jugador que tiene el 2 de trebol
-				//y lo cargo en la mesa
+				//Obtengo la posicion del jugador que tiene el 2 de trebol y lo cargo en la mesa
 				posJugadorActual = jugador2Trebol(); 	
 				jugadorGanadorMano = jugadores[posJugadorActual]; //Obtengo al jugador del 2 de trebol 
 				notificar(EventosCorazones.JUGO_2_DE_TREBOL); //notifico que se jugo el 2 de trebol

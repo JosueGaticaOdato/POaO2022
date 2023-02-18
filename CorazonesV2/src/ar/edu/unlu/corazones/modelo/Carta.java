@@ -58,17 +58,23 @@ public class Carta {
 	
 	//Obtener el valor real de la carta
 	private void valorCarta() {
-		if (valor >= 2 && valor <= 10) {
-			this.valorTexto = String.valueOf(this.valor);
-		} else if (valor == 11) {
+		switch (this.valor) {
+		case 11:
 			this.valorTexto = "J";
-		} else if (valor == 12) {
+			break;
+		case 12:
 			this.valorTexto = "Q";
-		} else if (valor == 13) {
+			break;
+		case 13:
 			this.valorTexto = "K";
-		} else {
+			break;
+		case 14:
 			this.valorTexto = "A";
-		} 
+			break;
+		default:
+			this.valorTexto = String.valueOf(this.valor);
+			break;
+		}
 	}
 	
 	//Metodo privado, propia de la carta, que determina el puntaje de la
